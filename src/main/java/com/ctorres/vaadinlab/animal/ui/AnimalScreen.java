@@ -2,6 +2,7 @@ package com.ctorres.vaadinlab.animal.ui;
 
 import com.ctorres.vaadinlab.animal.Animal;
 import com.ctorres.vaadinlab.animal.AnimalRepository;
+import com.vaadin.flow.component.card.CardVariant;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.router.Route;
 
@@ -18,8 +19,8 @@ public class AnimalScreen extends Div {
         draw();
     }
 
-    private void title(String text) {
-        add(new H2(text));
+    private void showTitle() {
+        add(new H2("Animals for adoption"));
     }
 
     private void showAnimals(Set<Animal> animals) {
@@ -51,7 +52,7 @@ public class AnimalScreen extends Div {
     }
 
     private void draw() {
-        title("Animals for adoption");
+        showTitle();
         showAnimals(animalRepository.findAll());
     }
 

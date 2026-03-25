@@ -11,17 +11,6 @@ public class AnimalRepository {
 
     private final Set<Animal> animalsForAdoption = new HashSet<>(0);
 
-    public AnimalRepository() {
-        animalsForAdoption.add(
-                new Animal(
-                        "Rufus",
-                        Gender.MALE,
-                        1,
-                        Specie.DOG,
-                        "Good buddy")
-        );
-    }
-
     public Animal save(Animal animal) {
 
         if (!isValid(animal)) return null;
