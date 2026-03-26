@@ -2,14 +2,20 @@ package com.ctorres.vaadinlab.animal;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Repository
 public class AnimalRepository {
 
-    private final Set<Animal> animalsForAdoption = new HashSet<>(0);
+    private final List<Animal> animalsForAdoption = new ArrayList<>(0);
+
+    public AnimalRepository() {
+        animalsForAdoption.add(new Animal("Rufus", Gender.MALE, 1, Specie.DOG, "Angry dog"));
+        animalsForAdoption.add(new Animal("Markus", Gender.MALE, 3, Specie.CAT, "Boring cat"));
+        animalsForAdoption.add(new Animal("Firulasha", Gender.FEMALE, 6, Specie.DOG, "Cute dog"));
+    }
 
     public Animal save(Animal animal) {
 
@@ -24,7 +30,7 @@ public class AnimalRepository {
         }
     }
 
-    public Set<Animal> findAll() {
+    public List<Animal> findAll() {
         return animalsForAdoption;
     }
 
