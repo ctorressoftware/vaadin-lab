@@ -22,14 +22,15 @@ public class AnimalScreen extends VerticalLayout {
     private final Input searchInput = new Input();
     private final Button searchButton = new Button("Search");
     private final Button newButton = new Button("New");
+    private final NativeTable table = new NativeTable();
 
     public AnimalScreen(AnimalService animalService) {
         this.animalService = animalService;
-
         configureLayout();
         configureActionBar();
+        configureTable();
 
-        add(title, buildActionBar(), buildAnimalsTable(doFirstAnimalLoad()));
+        add(title, buildActionBar(), table);
     }
 
     private void configureLayout() {
@@ -38,7 +39,10 @@ public class AnimalScreen extends VerticalLayout {
 
     private void configureClickToSearchButton() {
         searchButton.addClickListener(ClickEventListener -> {
-            Notification.show("Search button listener is configured!");
+            String animalName = searchInput.getValue();
+            List<Animal> animalsToAdopt = loadAnimals(animalName);
+            table.removeBody();
+            table.addBody().add(buildTableContent(animalsToAdopt));
         });
     }
 
@@ -48,8 +52,13 @@ public class AnimalScreen extends VerticalLayout {
         });
     }
 
-    private List<Animal> loadAnimalsByName(String name) {
-        return animalService.findAllAnimalsByName(name);
+    private void configureTable() {
+        table.getHead().add(buildTableHeader());
+        table.addBody().add(buildTableContent(doFirstAnimalLoad()));
+    }
+
+    private List<Animal> loadAnimals(String name) {
+        return name.isBlank() ? doFirstAnimalLoad() : animalService.findAnimalsByName(name);
     }
 
     private void configureActionBar() {
@@ -95,9 +104,5 @@ public class AnimalScreen extends VerticalLayout {
 
     private List<Animal> doFirstAnimalLoad() {
         return animalService.findAllAnimals();
-    }
-
-    private NativeTable buildAnimalsTable(List<Animal> animalsToAdopt) {
-        return new NativeTable(buildTableHeader(), buildTableContent(animalsToAdopt));
     }
 }
