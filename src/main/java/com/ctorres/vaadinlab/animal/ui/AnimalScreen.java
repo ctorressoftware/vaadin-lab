@@ -10,6 +10,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayoutVariant;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 import java.util.List;
@@ -19,10 +20,10 @@ import java.util.stream.Collectors;
 public class AnimalScreen extends VerticalLayout {
     private final AnimalService animalService;
     private final H1 title = new H1("Animals for adoption");
-    private final Input searchInput = new Input();
+    private final TextField searchField = new TextField();
     private final Button searchButton = new Button("Search");
     private final Button newButton = new Button("New");
-    private final NativeTable table = new NativeTable();
+    private final NativeTable table = new NativeTable(); // TODO: implement Grid
 
     public AnimalScreen(AnimalService animalService) {
         this.animalService = animalService;
@@ -34,46 +35,52 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void configureLayout() {
-        setThemeVariant(VerticalLayoutVariant.LUMO_WRAP, true);
+        setSizeFull();
+        setPadding(true);
+        setSpacing(true);
     }
 
-    private void configureClickToSearchButton() {
-        searchButton.addClickListener(ClickEventListener -> {
-            String animalName = searchInput.getValue();
-            List<Animal> animalsToAdopt = loadAnimals(animalName);
-            table.removeBody();
-            table.addBody().add(buildTableContent(animalsToAdopt));
+    private void configureSearchButton() {
+        searchButton.addClickListener(event -> {
+            String animalName = searchField.getValue();
+            List<Animal> animalsToAdopt = findAnimalsForSearch(animalName);
+            refreshTable(animalsToAdopt);
         });
     }
 
-    private void configureClickToNewButton() {
-        newButton.addClickListener(ClickEventListener -> {
-            Notification.show("New button listener is configured!");
-        });
+    private void refreshTable(List<Animal> animals) {
+        table.removeBody();
+        table.addBody().add(buildTableContent(animals));
+    }
+
+    private void configureNewButton() {
+        newButton.addClickListener(event ->
+            Notification.show("New button listener is configured!")
+        );
     }
 
     private void configureTable() {
         table.getHead().add(buildTableHeader());
-        table.addBody().add(buildTableContent(doFirstAnimalLoad()));
+        refreshTable(findAllAnimals());
     }
 
-    private List<Animal> loadAnimals(String name) {
-        return name.isBlank() ? doFirstAnimalLoad() : animalService.findAnimalsByName(name);
+    private List<Animal> findAnimalsForSearch(String query) {
+        String normalizedQuery = query == null ? "" : query.trim();
+        return normalizedQuery.isBlank()
+                ? animalService.findAllAnimals()
+                : animalService.findAnimalsByName(normalizedQuery);
     }
 
     private void configureActionBar() {
-        searchInput.setPlaceholder("Rufus");
-        searchInput.getStyle().set("height", "30px");
-        searchButton.setClassName(ButtonVariant.LUMO_ICON.getVariantName());
+        searchField.setPlaceholder("Rufus");
+        searchField.getStyle().set("height", "30px");
         searchButton.getStyle().set("margin", "0px 10px");
-        configureClickToNewButton();
-        configureClickToSearchButton();
+        configureSearchButton();
+        configureNewButton();
     }
 
     private Div buildActionBar() {
-        var div = new Div(new HorizontalLayout());
-        div.add(searchInput, searchButton, newButton);
-        return div;
+        return new Div(new HorizontalLayout(searchField, searchButton, newButton));
     }
 
     private NativeTableHeader buildTableHeader() {
@@ -102,7 +109,7 @@ public class AnimalScreen extends VerticalLayout {
         return content;
     }
 
-    private List<Animal> doFirstAnimalLoad() {
+    private List<Animal> findAllAnimals() {
         return animalService.findAllAnimals();
     }
 }
