@@ -16,7 +16,7 @@ public class AnimalService {
         return animalRepository.findAll();
     }
 
-    public List<Animal> findAllAnimalsByName(String name) {
+    public List<Animal> findAnimalsByName(String name) {
         if (name == null || name.isBlank()) throw new RuntimeException("name is required");
         return animalRepository.findAll().stream()
                 .filter(animal -> animal.getName().toLowerCase().contains(name.toLowerCase().trim()))
