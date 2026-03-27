@@ -19,7 +19,7 @@ public class AnimalService {
     public List<Animal> findAllAnimalsByName(String name) {
         if (name == null || name.isBlank()) throw new RuntimeException("name is required");
         return animalRepository.findAll().stream()
-                .filter(animal -> animal.getName().equalsIgnoreCase(name.trim()))
+                .filter(animal -> animal.getName().toLowerCase().contains(name.toLowerCase().trim()))
                 .toList();
     }
 }
