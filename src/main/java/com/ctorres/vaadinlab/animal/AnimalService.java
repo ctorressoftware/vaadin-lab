@@ -22,4 +22,13 @@ public class AnimalService {
                 .filter(animal -> animal.getName().toLowerCase().contains(name.toLowerCase().trim()))
                 .toList();
     }
+
+    public Animal save(Animal animal) {
+        return animalRepository.save(animal);
+    }
+
+    public Animal save(String name, Gender gender, int age, Specie specie, String personality) {
+        var animal = new Animal(name, gender, age, specie, personality);
+        return animalRepository.save(animal);
+    }
 }

@@ -52,9 +52,14 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void configureNewButton() {
-        newButton.addClickListener(event ->
-            Notification.show("New button listener is configured!")
-        );
+        newButton.addClickListener(event -> {
+            Notification.show("New button listener is configured!");
+            new AnimalDialog(animal -> {
+                var saved = animalService.save(animal);
+                // refreshTable();
+                // grid.select(saved);
+            }).open();
+        });
     }
 
     private void configureTable() {
@@ -77,8 +82,8 @@ public class AnimalScreen extends VerticalLayout {
         configureNewButton();
     }
 
-    private Div buildActionBar() {
-        return new Div(new HorizontalLayout(searchField, searchButton, newButton));
+    private HorizontalLayout buildActionBar() {
+        return new HorizontalLayout(searchField, searchButton, newButton);
     }
 
     private NativeTableHeader buildTableHeader() {
