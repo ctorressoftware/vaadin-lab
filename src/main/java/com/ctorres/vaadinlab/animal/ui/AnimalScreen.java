@@ -51,6 +51,7 @@ public class AnimalScreen extends VerticalLayout {
         table.addBody().add(buildTableContent(animals));
     }
 
+    // TODO: this is pending
     private void configureNewButton() {
         newButton.addClickListener(event -> {
             Notification.show("New button listener is configured!");
