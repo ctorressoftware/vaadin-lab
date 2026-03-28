@@ -6,40 +6,67 @@ import com.ctorres.vaadinlab.animal.Specie;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 
-import java.util.List;
 import java.util.Optional;
 
 public class AnimalForm extends FormLayout {
     private final TextField nameField = new TextField("Name");
-    private final ComboBox<String> genderComboBox =
-            new ComboBox<>("Gender", List.of(Gender.MALE.name(), Gender.FEMALE.name()));
+    private final ComboBox<Gender> genderComboBox = new ComboBox<>("Gender");
     private final IntegerField ageField = new IntegerField("Age");
-    private final ComboBox<String> specieComboBox =
-            new ComboBox<>("Specie", List.of(Specie.CAT.name(), Specie.DOG.name()));
-    private final TextField personalityField = new TextField("Personality");
+    private final ComboBox<Specie> specieComboBox = new ComboBox<>("Specie");
+    private final TextArea personalityField = new TextArea("Personality");
 
     public AnimalForm() {
-        configure();
+        configureForm();
+        configureFields();
+        setDefaultComboboxValues();
+        addFields();
     }
 
-    private void configure() {
-        setAutoResponsive(true);
-        addFormRow(nameField);
-        addFormRow(genderComboBox);
-        addFormRow(ageField);
-        addFormRow(specieComboBox);
-        addFormRow(personalityField);
+    private void configureForm() {
+        setWidthFull();
+        setResponsiveSteps(new ResponsiveStep("0", 1));
+    }
+
+    private void configureFields() {
+        nameField.setWidthFull();
+        genderComboBox.setWidthFull();
+        ageField.setWidthFull();
+        specieComboBox.setWidthFull();
+        personalityField.setWidthFull();
+
+        genderComboBox.setItems(Gender.values());
+        specieComboBox.setItems(Specie.values());
+    }
+
+    private void setDefaultComboboxValues() {
+        genderComboBox.setValue(Gender.MALE);
+        specieComboBox.setValue(Specie.DOG);
+    }
+
+    private void addFields() {
+        add(nameField, genderComboBox, ageField, specieComboBox, personalityField);
     }
 
     public Optional<Animal> getFormDataObject() {
         final String name = nameField.getValue();
-        final String gender = genderComboBox.getValue();
-        final int age = ageField.getValue();
-        final String specie = specieComboBox.getValue();
+        final Gender gender = genderComboBox.getValue();
+        final Integer age = ageField.getValue();
+        final Specie specie = specieComboBox.getValue();
         final String personality = personalityField.getValue();
 
-        return Optional.of(new Animal(name, Gender.valueOf(gender), age, Specie.valueOf(specie), personality));
+        if (name == null || gender == null || age == null || specie == null || personality == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(new Animal(
+                name,
+                gender,
+                age,
+                specie,
+                personality
+        ));
     }
 }
