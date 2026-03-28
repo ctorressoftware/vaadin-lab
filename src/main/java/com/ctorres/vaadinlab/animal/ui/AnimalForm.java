@@ -21,7 +21,7 @@ public class AnimalForm extends FormLayout {
     public AnimalForm() {
         configureForm();
         configureFields();
-        setDefaultComboboxValues();
+        configureCombobox();
         addFields();
     }
 
@@ -32,18 +32,17 @@ public class AnimalForm extends FormLayout {
 
     private void configureFields() {
         nameField.setWidthFull();
-        genderComboBox.setWidthFull();
         ageField.setWidthFull();
-        specieComboBox.setWidthFull();
         personalityField.setWidthFull();
-
-        genderComboBox.setItems(Gender.values());
-        specieComboBox.setItems(Specie.values());
     }
 
-    private void setDefaultComboboxValues() {
-        genderComboBox.setValue(Gender.MALE);
-        specieComboBox.setValue(Specie.DOG);
+    private void configureCombobox() {
+        genderComboBox.setWidthFull();
+        specieComboBox.setWidthFull();
+        genderComboBox.setItems(Gender.values());
+        specieComboBox.setItems(Specie.values());
+        genderComboBox.setPlaceholder("Select animal gender");
+        specieComboBox.setPlaceholder("Select animal specie");
     }
 
     private void addFields() {
