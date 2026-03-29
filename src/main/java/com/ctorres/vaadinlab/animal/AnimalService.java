@@ -23,6 +23,11 @@ public class AnimalService {
                 .toList();
     }
 
+    public Animal findAnimalByName(String name) {
+        if (name == null || name.isBlank()) throw new RuntimeException("name is required");
+        return animalRepository.findAnimalByName(name);
+    }
+
     public Animal save(Animal animal) {
         return animalRepository.save(animal);
     }
