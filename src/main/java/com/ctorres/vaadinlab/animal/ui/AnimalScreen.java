@@ -3,6 +3,7 @@ package com.ctorres.vaadinlab.animal.ui;
 import com.ctorres.vaadinlab.animal.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
@@ -14,7 +15,7 @@ import com.vaadin.flow.router.Route;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Route("/animals")
+@Route("/")
 public class AnimalScreen extends VerticalLayout {
     private final AnimalService animalService;
     private final H1 title = new H1("Animals for adoption");
@@ -26,7 +27,7 @@ public class AnimalScreen extends VerticalLayout {
     public AnimalScreen(AnimalService animalService) {
         this.animalService = animalService;
         configureLayout();
-        configureActionBar();
+        configureActions();
         configureTable();
 
         add(title, buildActionBar(), table);
@@ -36,6 +37,12 @@ public class AnimalScreen extends VerticalLayout {
         setSizeFull();
         setPadding(true);
         setSpacing(true);
+    }
+
+    private void configureSearchField() {
+        searchField.addKeyPressListener(Key.ENTER, listener -> {
+            searchButton.click();
+        });
     }
 
     private void configureSearchButton() {
@@ -56,9 +63,8 @@ public class AnimalScreen extends VerticalLayout {
         newButton.addClickListener(event -> {
             Notification.show("New button listener is configured!");
             new AnimalDialog(animal -> {
-                var saved = animalService.save(animal);
-                // refreshTable();
-                // grid.select(saved);
+                animalService.save(animal);
+                refreshTable(findAllAnimals());
             }).open();
         });
     }
@@ -75,12 +81,13 @@ public class AnimalScreen extends VerticalLayout {
                 : animalService.findAnimalsByName(normalizedQuery);
     }
 
-    private void configureActionBar() {
+    private void configureActions() {
         searchField.setPlaceholder("Rufus");
         searchField.getStyle().set("height", "30px");
         searchButton.getStyle().set("margin", "0px 10px");
         configureSearchButton();
         configureNewButton();
+        configureSearchField();
     }
 
     private HorizontalLayout buildActionBar() {
