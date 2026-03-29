@@ -27,7 +27,7 @@ public class AnimalDialog extends Dialog {
 
     private void configureModalDialog() {
         setHeaderTitle("Add animal");
-        setWidth(40f, Unit.PERCENTAGE);
+        setWidth(20f, Unit.PERCENTAGE);
         add(form);
     }
 
