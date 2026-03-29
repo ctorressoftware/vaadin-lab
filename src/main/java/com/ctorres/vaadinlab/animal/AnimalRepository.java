@@ -12,9 +12,9 @@ public class AnimalRepository {
     private final List<Animal> animalsForAdoption = new ArrayList<>(0);
 
     public AnimalRepository() {
-        animalsForAdoption.add(new Animal("Rufus", Gender.MALE, 1, Specie.DOG, "Angry dog"));
-        animalsForAdoption.add(new Animal("Markus", Gender.MALE, 3, Specie.CAT, "Boring cat"));
-        animalsForAdoption.add(new Animal("Firulasha", Gender.FEMALE, 6, Specie.DOG, "Cute dog"));
+        animalsForAdoption.add(new Animal("Rufus", null, Gender.MALE, 1, Specie.DOG, "Angry dog"));
+        animalsForAdoption.add(new Animal("Markus", "https://upload.wikimedia.org/wikipedia/commons/9/9a/Cat_07464_kalamis_safinaz.jpg", Gender.MALE, 3, Specie.CAT, "Boring cat"));
+        animalsForAdoption.add(new Animal("Firulasha", null, Gender.FEMALE, 6, Specie.DOG, "Cute dog"));
     }
 
     public Animal save(Animal animal) {
