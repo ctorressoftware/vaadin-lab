@@ -1,27 +1,35 @@
 # vaadin-lab
 
-Hands-on Vaadin + Spring Boot lab focused on server-side UI development.
+Experimental Vaadin + Spring Boot project exploring server-side UI development as an alternative to client-heavy frontend architectures.
 
-## What is this?
+## Overview
 
-This repository is a personal lab used to explore how to build web UIs using Vaadin Flow and Java.
+This project explores a different approach to building web UIs using Vaadin Flow, where the UI is defined and managed entirely on the server.
 
-The goal is to understand component-based UI, event handling, and form interactions without relying on frontend frameworks.
+Instead of relying on client-side frameworks (React, Angular, etc.), Vaadin allows building interactive applications using Java components, with automatic client-server synchronization.
 
-## Current features
+## Context
 
-* Simple animal listing screen
-* Search by name
-* Modal dialog to create new animals
-* Basic form handling
-* In-memory data storage (no persistence)
+Coming from a frontend-heavy background, this lab focuses on understanding:
+
+* Trade-offs between server-side UI and client-side rendering
+* State management handled on the server vs in the browser
+* Developer experience compared to modern frontend stacks
+* How far this model can go for real applications
 
 ## Tech stack
 
 * Java 21
 * Spring Boot 4
-* Vaadin 25
+* Vaadin Flow
 * Maven
+
+## Current features
+
+* Simple UI composition using Vaadin components
+* Basic search interaction
+* Modal dialog with form input
+* In-memory data handling
 
 ## Run locally
 
@@ -31,12 +39,10 @@ The goal is to understand component-based UI, event handling, and form interacti
 
 Open:
 
-```
 http://localhost:8080
-```
 
 ## Notes
 
-* This is a learning project
-* Data is stored in memory (lost on restart)
-* Not production-ready
+* This is an experimental project
+* Focused on architectural exploration, not production concerns
+* Data is not persisted
