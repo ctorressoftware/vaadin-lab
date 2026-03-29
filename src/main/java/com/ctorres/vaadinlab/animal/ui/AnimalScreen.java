@@ -3,6 +3,7 @@ package com.ctorres.vaadinlab.animal.ui;
 import com.ctorres.vaadinlab.animal.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -68,6 +69,7 @@ public class AnimalScreen extends VerticalLayout {
         setColumnsOrder();
         table.setAllRowsVisible(true);
         table.setColumnReorderingAllowed(true);
+        table.setWidth(60f, Unit.PERCENTAGE);
         table.setEmptyStateText("No animals to adopt");
         table.addThemeVariants(GridVariant.AURA_COLUMN_BORDERS);
         refreshTable(findAllAnimals());
