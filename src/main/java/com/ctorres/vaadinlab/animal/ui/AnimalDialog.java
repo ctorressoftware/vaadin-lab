@@ -7,7 +7,6 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.function.SerializableConsumer;
 
-// TODO: clean
 public class AnimalDialog extends Dialog {
     private final SerializableConsumer<Animal> onSaveCallback;
     private final AnimalForm form;
@@ -15,15 +14,21 @@ public class AnimalDialog extends Dialog {
     public AnimalDialog(SerializableConsumer<Animal> onSaveCallback) {
         this.onSaveCallback = onSaveCallback;
         this.form = new AnimalForm();
-        var saveBtn = new Button("Save", event -> save());
-        saveBtn.addThemeVariants(ButtonVariant.AURA_PRIMARY);
-        var cancelBtn = new Button("Cancel", event -> close());
+        configureModalDialog();
+        configureButtons();
+    }
 
-        // Configure the dialog
+    private void configureButtons() {
+        var saveButton = new Button("Save", event -> save());
+        var cancelButton = new Button("Cancel", event -> close());
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        getFooter().add(cancelButton, saveButton);
+    }
+
+    private void configureModalDialog() {
         setHeaderTitle("Add animal");
         setWidth(40f, Unit.PERCENTAGE);
         add(form);
-        getFooter().add(cancelBtn, saveBtn);
     }
 
     private void save() {
