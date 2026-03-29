@@ -69,11 +69,10 @@ public class AnimalScreen extends VerticalLayout {
         setColumnsOrder();
         table.setAllRowsVisible(true);
         table.setColumnReorderingAllowed(true);
-        table.setWidth(60f, Unit.PERCENTAGE);
+        table.setWidth(90f, Unit.PERCENTAGE);
         table.setEmptyStateText("No animals to adopt");
         table.addThemeVariants(GridVariant.AURA_COLUMN_BORDERS);
         refreshTable(findAllAnimals());
-
     }
 
     private void setColumnsOrder() {
