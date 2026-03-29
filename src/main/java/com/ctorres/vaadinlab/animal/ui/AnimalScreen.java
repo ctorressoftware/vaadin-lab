@@ -6,7 +6,6 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -58,10 +57,8 @@ public class AnimalScreen extends VerticalLayout {
         table.addBody().add(buildTableContent(animals));
     }
 
-    // TODO: this is pending
     private void configureNewButton() {
         newButton.addClickListener(event -> {
-            Notification.show("New button listener is configured!");
             new AnimalDialog(animal -> {
                 animalService.save(animal);
                 refreshTable(findAllAnimals());
