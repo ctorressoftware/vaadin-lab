@@ -58,12 +58,10 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void configureNewButton() {
-        newButton.addClickListener(event -> {
-            new AnimalDialog(animal -> {
-                animalService.save(animal);
-                refreshTable(findAllAnimals());
-            }).open();
-        });
+        newButton.addClickListener(event -> new AnimalDialog(animal -> {
+            animalService.save(animal);
+            refreshTable(findAllAnimals());
+        }).open());
     }
 
     private void configureTable() {
