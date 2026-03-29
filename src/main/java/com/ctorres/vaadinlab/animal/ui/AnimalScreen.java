@@ -5,12 +5,15 @@ import com.ctorres.vaadinlab.animal.AnimalService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +24,7 @@ public class AnimalScreen extends VerticalLayout {
     private final TextField searchField = new TextField();
     private final Button searchButton = new Button("Search");
     private final Button newButton = new Button("New");
-    private final NativeTable table = new NativeTable(); // TODO: implement Grid
+    private final Grid<Animal> table = new Grid<>(Animal.class);
 
     public AnimalScreen(AnimalService animalService) {
         this.animalService = animalService;
@@ -53,8 +56,7 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void refreshTable(List<Animal> animals) {
-        table.removeBody();
-        table.addBody().add(buildTableContent(animals));
+        table.setItems(animals);
     }
 
     private void configureNewButton() {
@@ -65,8 +67,22 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void configureTable() {
-        table.getHead().add(buildTableHeader());
+        setColumnsOrder();
+        table.setAllRowsVisible(true);
+        table.setColumnReorderingAllowed(true);
+        table.setEmptyStateText("No animals to adopt");
+        table.addThemeVariants(GridVariant.AURA_COLUMN_BORDERS);
         refreshTable(findAllAnimals());
+
+    }
+
+    private void setColumnsOrder() {
+        var nameColumn = table.getColumnByKey("name");
+        var columns = new ArrayList<>(table.getColumns().stream()
+                .filter(column -> !column.getKey().equals(nameColumn.getKey()))
+                .toList());
+        columns.addFirst(nameColumn);
+        table.setColumnOrder(columns);
     }
 
     private List<Animal> findAnimalsForSearch(String query) {
