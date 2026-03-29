@@ -39,7 +39,13 @@ public class Animal {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Animal{" +
+                "name='" + name + '\'' +
+                ", gender=" + gender +
+                ", age=" + age +
+                ", specie=" + specie +
+                ", personality='" + personality + '\'' +
+                '}';
     }
 
     @Override
