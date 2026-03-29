@@ -30,6 +30,13 @@ public class AnimalRepository {
         }
     }
 
+    public Animal findAnimalByName(String name) {
+        return animalsForAdoption.stream()
+                .filter(animal -> animal.getName().equals(name))
+                .toList()
+                .getFirst();
+    }
+
     public List<Animal> findAll() {
         return animalsForAdoption;
     }
