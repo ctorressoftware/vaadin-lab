@@ -1,16 +1,20 @@
 package com.ctorres.vaadinlab.animal;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Animal {
+    private final String id = UUID.randomUUID().toString();
     private final String name;
+    private final String image;
     private final Gender gender;
     private final int age;
     private final Specie specie;
     private final String personality;
 
-    public Animal(String name, Gender gender, int age, Specie specie, String personality) {
+    public Animal(String name, String image, Gender gender, int age, Specie specie, String personality) {
         this.name = name;
+        this.image = image;
         this.gender = gender;
         this.age = age;
         this.specie = specie;
@@ -19,6 +23,10 @@ public class Animal {
 
     public String getName() {
         return name;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public Gender getGender() {
@@ -40,7 +48,9 @@ public class Animal {
     @Override
     public String toString() {
         return "Animal{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", images=" + image +
                 ", gender=" + gender +
                 ", age=" + age +
                 ", specie=" + specie +
@@ -53,7 +63,9 @@ public class Animal {
         if (o == null || getClass() != o.getClass()) return false;
         Animal animal = (Animal) o;
         return age == animal.age
+                && Objects.equals(id, animal.id)
                 && Objects.equals(name, animal.name)
+                && Objects.equals(image, animal.image)
                 && gender == animal.gender
                 && specie == animal.specie
                 && Objects.equals(personality, animal.personality);
@@ -61,6 +73,6 @@ public class Animal {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, gender, age, specie, personality);
+        return Objects.hash(id, name, image, gender, age, specie, personality);
     }
 }
