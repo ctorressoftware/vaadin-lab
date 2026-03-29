@@ -16,7 +16,7 @@ import com.vaadin.flow.router.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-@Route("/")
+@Route(value = "/")
 public class AnimalScreen extends VerticalLayout {
     private final AnimalService animalService;
     private final H1 title = new H1("Animals for adoption");
