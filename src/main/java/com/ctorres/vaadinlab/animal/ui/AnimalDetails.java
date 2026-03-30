@@ -2,6 +2,7 @@ package com.ctorres.vaadinlab.animal.ui;
 
 import com.ctorres.vaadinlab.animal.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -12,7 +13,6 @@ import java.util.Optional;
 
 @Route(value = "/details")
 public class AnimalDetails extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
-
     private Animal animal;
     private final AnimalService animalService;
     private final H2 title = new H2("Animal details");
@@ -39,43 +39,32 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
         add(title);
     }
 
+    private <T extends Component> Div createContentFrame(String title, T data, boolean isVertical) {
+        var header = new Paragraph(title);
+        var content = isVertical ?
+                new VerticalLayout(header, data) :
+                new HorizontalLayout(header, data);
+        return new Div(content);
+    }
+
     private void showAnimalInformation() {
-
-        var id = new Div(new HorizontalLayout(
-                new Paragraph("ID: "),
-                new Paragraph(animal.getId())
-        ));
-        var name = new Div(new HorizontalLayout(
-                new Paragraph("Name: "),
-                new Paragraph(animal.getName())
-        ));
-        var gender = new Div(new HorizontalLayout(
-                new Paragraph("Gender: "),
-                new Paragraph(animal.getGender().name())
-        ));
-        var age = new Div(new HorizontalLayout(
-                new Paragraph("Age: "),
-                new Paragraph(String.valueOf(animal.getAge()))
-        ));
-
-        var specie = new Div(new HorizontalLayout(
-                new Paragraph("Specie: "),
-                new Paragraph(animal.getSpecie().name())
-        ));
-
-        var personality = new Div(new HorizontalLayout(
-                new Paragraph("Personality: "),
-                new Paragraph(animal.getPersonality())
-        ));
-
-        var animalPhoto = new Image(animal.getImage(), "Animal photo");
-        animalPhoto.setWidth(30f, Unit.PERCENTAGE);
-
-        var photo = new Div(new VerticalLayout(
-                new Paragraph("Photo: "),
-                animalPhoto
-        ));
+        var id = createContentFrame("ID:", new Paragraph(animal.getId()), false);
+        var name = createContentFrame("Name:", new Paragraph(animal.getName()), false);
+        var gender = createContentFrame("Gender:", new Paragraph(animal.getGender().name()), false);
+        var age = createContentFrame("Age:", new Paragraph(String.valueOf(animal.getAge())), false);
+        var specie = createContentFrame("Specie:", new Paragraph(animal.getSpecie().name()), false);
+        var personality = createContentFrame("Personality:", new Paragraph(animal.getPersonality()), false);
+        var photo = createContentFrame("Photo:", animal.getImage() == null ?
+                        new Paragraph("No image") :
+                        setPhotoDimensions(animal.getImage(), "Animal photo"),
+                animal.getImage() != null);
 
         add(new VerticalLayout(id, name, gender, age, specie, personality, photo));
+    }
+
+    private Image setPhotoDimensions(String url, String alt) {
+        var image = new Image(url, alt);
+        image.setWidth(30f, Unit.PERCENTAGE);
+        return image;
     }
 }
