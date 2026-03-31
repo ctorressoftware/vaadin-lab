@@ -80,10 +80,18 @@ public class AnimalScreen extends VerticalLayout {
     private void configureTableActions() {
         table.addComponentColumn(animal -> {
             var editButton = new Button("edit", clickEvent -> { /* TODO */ });
+            return editButton;
+        });
+
+        table.addComponentColumn(animal -> {
             var deleteButton = new Button("delete", clickEvent -> { /* TODO */ });
+            return deleteButton;
+        });
+
+        table.addComponentColumn(animal -> {
             var viewButton = new Button("view", clickEvent -> UI.getCurrent()
                     .navigate(AnimalDetails.class, animal.getName()));
-            return new HorizontalLayout(editButton, viewButton, deleteButton);
+            return viewButton;
         });
     }
 
