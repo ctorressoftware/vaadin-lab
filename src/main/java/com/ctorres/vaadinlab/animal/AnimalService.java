@@ -1,5 +1,6 @@
 package com.ctorres.vaadinlab.animal;
 
+import com.ctorres.vaadinlab.entity.Animal;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
