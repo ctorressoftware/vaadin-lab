@@ -9,9 +9,6 @@ src/main/frontend/generated/
 # Build
 target/
 
-# Maven wrapper (NO ignorar el jar)
-# (asegúrate de tener mvnw, mvnw.cmd y .mvn/ en repo)
-
 # IDEs
 .idea/
 *.iml
@@ -34,3 +31,6 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
+
+# Environment
+.env
