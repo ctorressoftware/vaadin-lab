@@ -20,7 +20,7 @@ import java.util.List;
 @Route(value = "/")
 public class AnimalScreen extends VerticalLayout {
     private final AnimalService animalService;
-    private final H1 title = new H1("Animals for Adoption");
+    private final H1 title = new H1("Animals for adoption");
     private final TextField searchField = new TextField();
     private final Button searchButton = new Button("Search");
     private final Button newButton = new Button("New");
