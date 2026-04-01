@@ -1,16 +1,37 @@
-package com.ctorres.vaadinlab.animal;
+package com.ctorres.vaadinlab.entity;
+
+import com.ctorres.vaadinlab.animal.Gender;
+import com.ctorres.vaadinlab.animal.Specie;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity(name = "animal")
 public class Animal {
-    private final String id = UUID.randomUUID().toString();
-    private final String name;
-    private final String image;
-    private final Gender gender;
-    private final int age;
-    private final Specie specie;
-    private final String personality;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id = UUID.randomUUID().toString();
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String image;
+
+    @Column(nullable = false)
+    private Gender gender;
+
+    @Column(nullable = false)
+    private int age;
+
+    @Column(nullable = false)
+    private Specie specie;
+
+    @Column(nullable = true)
+    private String personality;
+
+    protected Animal() {}
 
     public Animal(String name, String image, Gender gender, int age, Specie specie, String personality) {
         this.name = name;
@@ -66,17 +87,11 @@ public class Animal {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Animal animal = (Animal) o;
-        return age == animal.age
-                && Objects.equals(id, animal.id)
-                && Objects.equals(name, animal.name)
-                && Objects.equals(image, animal.image)
-                && gender == animal.gender
-                && specie == animal.specie
-                && Objects.equals(personality, animal.personality);
+        return Objects.equals(id, animal.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, image, gender, age, specie, personality);
+        return Objects.hash(id);
     }
 }
