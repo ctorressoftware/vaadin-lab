@@ -10,6 +10,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class AnimalForm extends FormLayout {
     private final TextField nameField = new TextField("Name");
@@ -64,6 +65,7 @@ public class AnimalForm extends FormLayout {
         }
 
         return Optional.of(new Animal(
+                UUID.randomUUID(),
                 name,
                 image,
                 gender,

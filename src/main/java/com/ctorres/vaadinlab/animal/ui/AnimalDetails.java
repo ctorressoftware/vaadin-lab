@@ -48,7 +48,7 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
     }
 
     private void showAnimalInformation() {
-        var id = createContentFrame("ID:", new Paragraph(animal.getId()), false);
+        var id = createContentFrame("ID:", new Paragraph(animal.getId().toString()), false);
         var name = createContentFrame("Name:", new Paragraph(animal.getName()), false);
         var gender = createContentFrame("Gender:", new Paragraph(animal.getGender().name()), false);
         var age = createContentFrame("Age:", new Paragraph(String.valueOf(animal.getAge())), false);

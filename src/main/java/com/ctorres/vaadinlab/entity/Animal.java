@@ -11,7 +11,7 @@ import java.util.UUID;
 public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id = UUID.randomUUID().toString();
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
@@ -44,7 +44,17 @@ public class Animal {
         this.personality = personality;
     }
 
-    public String getId() {
+    public Animal(UUID id, String name, String image, Gender gender, int age, Specie specie, String personality) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.gender = gender;
+        this.age = age;
+        this.specie = specie;
+        this.personality = personality;
+    }
+
+    public UUID getId() {
         return id;
     }
 
