@@ -32,6 +32,12 @@ public class AnimalService {
         return animalRepository.findAnimalByName(name);
     }
 
+    public void editAnimal(Animal animal) {
+        boolean animalExists = animalRepository.existsAnimalById(animal.getId());
+        if (!animalExists) throw new RuntimeException("Specified animal doesn't exist. ID=" + animal.getId());
+        animalRepository.save(animal);
+    }
+
     public void deleteAnimal(UUID id) {
         animalRepository.deleteById(id);
     }
