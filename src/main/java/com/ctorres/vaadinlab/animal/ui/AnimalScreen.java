@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -42,9 +43,7 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void configureSearchField() {
-        searchField.addKeyPressListener(Key.ENTER, listener -> {
-            searchButton.click();
-        });
+        searchField.addKeyPressListener(Key.ENTER, listener -> searchButton.click());
     }
 
     private void configureSearchButton() {
@@ -88,7 +87,10 @@ public class AnimalScreen extends VerticalLayout {
         });
 
         table.addComponentColumn(animal -> {
-            var editButton = new Button("Edit", event -> { /* TODO */ });
+            var editButton = new Button("Edit",
+                    event -> new AnimalDialog(animal, editedAnimal -> {
+                        Notification.show("Edited animal!");
+                    }).open());
             editButton.getStyle().set("width", "80%");
             editButton.getStyle().set("background-color", "#F3BE7A");
             return editButton;
