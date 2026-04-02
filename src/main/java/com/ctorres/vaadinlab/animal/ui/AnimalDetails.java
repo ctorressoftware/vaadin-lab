@@ -9,8 +9,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 
-import java.util.Optional;
-
 @Route(value = "/details")
 public class AnimalDetails extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
     private Animal animal;
