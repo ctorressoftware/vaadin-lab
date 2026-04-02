@@ -81,9 +81,9 @@ public class AnimalForm extends FormLayout {
             result = false;
         }
 
-        if (imageUrlField.isRequired() && imageUrlField.getValue().isBlank()) {
-            var urlPattern = "^((https?|ftp|file)://)?([\\w.-]+)+(:[0-9]{1,5})?(/[\\w ./-]*)?(\\?\\S*)?$\n";
-            if (!imageUrlField.getValue().matches(urlPattern)) {
+        if (imageUrlField.isRequired()) {
+            var urlPattern = "^(?i)https?:\\/\\/.*\\.(png|jpg|jpeg|gif|bmp|webp|svg)(\\?.*)?$";
+            if (imageUrlField.getValue().isBlank() || !imageUrlField.getValue().matches(urlPattern)) {
                 imageUrlField.getStyle().set("border", "1px solid red");
                 result = false;
             }
