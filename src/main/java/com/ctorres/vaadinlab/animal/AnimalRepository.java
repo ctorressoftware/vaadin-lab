@@ -12,7 +12,5 @@ import java.util.UUID;
 public interface AnimalRepository extends JpaRepository<Animal, UUID> {
     Optional<Animal> findAnimalByName(String name);
 
-    List<Animal> findAnimalById(UUID id);
-
     boolean existsAnimalById(UUID id);
 }
