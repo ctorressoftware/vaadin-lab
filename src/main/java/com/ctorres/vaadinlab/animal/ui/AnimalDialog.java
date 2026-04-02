@@ -15,7 +15,14 @@ public class AnimalDialog extends Dialog {
     public AnimalDialog(SerializableConsumer<Animal> onSaveCallback) {
         this.onSaveCallback = onSaveCallback;
         this.form = new AnimalForm();
-        configureModalDialog();
+        configureModalDialog("Add animal", 40f);
+        configureButtons();
+    }
+
+    public AnimalDialog(Animal animalToEdit, SerializableConsumer<Animal> onSaveCallback) {
+        this.onSaveCallback = onSaveCallback;
+        this.form = new AnimalForm(animalToEdit);
+        configureModalDialog("Edit animal", 40f);
         configureButtons();
     }
 
@@ -26,9 +33,9 @@ public class AnimalDialog extends Dialog {
         getFooter().add(cancelButton, saveButton);
     }
 
-    private void configureModalDialog() {
-        setHeaderTitle("Add animal");
-        setWidth(40f, Unit.PERCENTAGE);
+    private void configureModalDialog(String headerTitle, float width) {
+        setHeaderTitle(headerTitle);
+        setWidth(width, Unit.PERCENTAGE);
         add(form);
     }
 
