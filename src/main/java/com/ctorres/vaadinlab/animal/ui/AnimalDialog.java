@@ -33,7 +33,7 @@ public class AnimalDialog extends Dialog {
     }
 
     private void save() {
-        var animal = form.getFormDataObject();
+        var animal = form.getFormData();
         if (animal == null) {
             Notification.show("You have to complete all required fields");
             return;

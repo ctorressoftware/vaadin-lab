@@ -109,7 +109,7 @@ public class AnimalForm extends FormLayout {
         return result;
     }
 
-    public Animal getFormDataObject() {
+    public Animal getFormData() {
 
         if (!validate()) {
             return null;
