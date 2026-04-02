@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AnimalService {
@@ -29,6 +30,10 @@ public class AnimalService {
     public Optional<Animal> findAnimalByName(String name) {
         if (name == null || name.isBlank()) throw new RuntimeException("name is required");
         return animalRepository.findAnimalByName(name);
+    }
+
+    public void deleteAnimal(UUID id) {
+        animalRepository.deleteById(id);
     }
 
     public Animal save(Animal animal) {

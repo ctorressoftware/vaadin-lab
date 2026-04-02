@@ -95,7 +95,10 @@ public class AnimalScreen extends VerticalLayout {
         });
 
         table.addComponentColumn(animal -> {
-            var deleteButton = new Button("Delete", clickEvent -> { /* TODO */ });
+            var deleteButton = new Button("Delete", clickEvent -> {
+                animalService.deleteAnimal(animal.getId());
+                refreshTable(findAllAnimals());
+            });
             deleteButton.getStyle().set("width", "80%");
             deleteButton.getStyle().set("background-color", "#FF5A5A");
             return deleteButton;
