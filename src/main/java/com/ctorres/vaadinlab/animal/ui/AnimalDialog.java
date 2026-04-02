@@ -5,6 +5,7 @@ import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.function.SerializableConsumer;
 
 public class AnimalDialog extends Dialog {
@@ -32,9 +33,12 @@ public class AnimalDialog extends Dialog {
     }
 
     private void save() {
-        form.getFormDataObject().ifPresent(animal -> {
-            onSaveCallback.accept(animal);
-            close();
-        });
+        var animal = form.getFormDataObject();
+        if (animal == null) {
+            Notification.show("You have to complete all required fields");
+            return;
+        }
+        onSaveCallback.accept(animal);
+        close();
     }
 }
