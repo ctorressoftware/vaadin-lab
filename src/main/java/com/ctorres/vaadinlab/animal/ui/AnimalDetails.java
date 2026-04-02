@@ -24,7 +24,7 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
     @Override
     public void setParameter(BeforeEvent beforeEvent, String parameter) {
         if (parameter == null || parameter.isBlank()) throw new RuntimeException("name parameter is required");
-        this.animal = Optional.ofNullable(animalService.findAnimalByName(parameter))
+        this.animal = animalService.findAnimalByName(parameter)
                 .orElseThrow(() -> new RuntimeException("Animal doesn't exists. Name =" + parameter));
     }
 

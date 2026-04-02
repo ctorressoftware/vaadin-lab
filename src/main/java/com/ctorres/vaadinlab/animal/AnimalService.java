@@ -4,6 +4,7 @@ import com.ctorres.vaadinlab.entity.Animal;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnimalService {
@@ -24,7 +25,7 @@ public class AnimalService {
                 .toList();
     }
 
-    public Animal findAnimalByName(String name) {
+    public Optional<Animal> findAnimalByName(String name) {
         if (name == null || name.isBlank()) throw new RuntimeException("name is required");
         return animalRepository.findAnimalByName(name);
     }
