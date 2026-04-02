@@ -26,6 +26,14 @@ public class AnimalForm extends FormLayout {
         addFields();
     }
 
+    public AnimalForm(Animal animalToEdit) {
+        configureForm();
+        configureFields();
+        configureCombobox();
+        configureAnimalToEdit(animalToEdit);
+        addFields();
+    }
+
     private void configureForm() {
         setWidthFull();
         setResponsiveSteps(new ResponsiveStep("0", 1));
@@ -43,6 +51,15 @@ public class AnimalForm extends FormLayout {
         ageField.setPlaceholder("1");
         personalityField.setWidthFull();
         personalityField.setPlaceholder("A super cute cat! :D");
+    }
+
+    private void configureAnimalToEdit(Animal animalToEdit) {
+        nameField.setValue(animalToEdit.getName());
+        imageUrlField.setValue(animalToEdit.getImage());
+        ageField.setValue(animalToEdit.getAge());
+        genderComboBox.setValue(animalToEdit.getGender());
+        specieComboBox.setValue(animalToEdit.getSpecie());
+        personalityField.setValue(animalToEdit.getPersonality());
     }
 
     private void clearErrors() {
