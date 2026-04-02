@@ -18,6 +18,7 @@ public class AnimalService {
         return animalRepository.findAll();
     }
 
+    // TODO: Query animals by name directly in the database instead of loading all records first.
     public List<Animal> findAnimalsByName(String name) {
         if (name == null || name.isBlank()) throw new RuntimeException("name is required");
         return animalRepository.findAll().stream()
