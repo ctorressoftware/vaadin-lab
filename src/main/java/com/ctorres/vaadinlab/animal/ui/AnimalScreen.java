@@ -71,27 +71,34 @@ public class AnimalScreen extends VerticalLayout {
         configureTableActions();
         table.setAllRowsVisible(true);
         table.setColumnReorderingAllowed(true);
-        table.setWidth(100f, Unit.PERCENTAGE);
+        table.setWidth(80f, Unit.PERCENTAGE);
         table.setEmptyStateText("No animals to adopt");
         table.addThemeVariants(GridVariant.AURA_COLUMN_BORDERS);
         refreshTable(findAllAnimals());
     }
 
     private void configureTableActions() {
+
         table.addComponentColumn(animal -> {
-            var editButton = new Button("edit", clickEvent -> { /* TODO */ });
+            var viewButton = new Button("View", clickEvent -> UI.getCurrent()
+                    .navigate(AnimalDetails.class, animal.getName()));
+            viewButton.getStyle().set("width", "80%");
+            viewButton.getStyle().set("background-color", "#FFFBF1");
+            return viewButton;
+        });
+
+        table.addComponentColumn(animal -> {
+            var editButton = new Button("Edit", clickEvent -> { /* TODO */ });
+            editButton.getStyle().set("width", "80%");
+            editButton.getStyle().set("background-color", "#F3BE7A");
             return editButton;
         });
 
         table.addComponentColumn(animal -> {
-            var deleteButton = new Button("delete", clickEvent -> { /* TODO */ });
+            var deleteButton = new Button("Delete", clickEvent -> { /* TODO */ });
+            deleteButton.getStyle().set("width", "80%");
+            deleteButton.getStyle().set("background-color", "#FF5A5A");
             return deleteButton;
-        });
-
-        table.addComponentColumn(animal -> {
-            var viewButton = new Button("view", clickEvent -> UI.getCurrent()
-                    .navigate(AnimalDetails.class, animal.getName()));
-            return viewButton;
         });
     }
 
