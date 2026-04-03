@@ -66,7 +66,7 @@ public class AnimalScreen extends VerticalLayout {
 
     private void configureTable() {
         setColumnsOrder();
-        configureTableActions();
+        configureRowActions();
         table.setAllRowsVisible(true);
         table.setColumnReorderingAllowed(true);
         table.setWidth(80f, Unit.PERCENTAGE);
@@ -75,7 +75,7 @@ public class AnimalScreen extends VerticalLayout {
         refreshTable(findAllAnimals());
     }
 
-    private void configureTableActions() {
+    private void configureRowActions() {
 
         table.addComponentColumn(animal -> {
             var viewButton = new Button("View", event -> UI.getCurrent()
