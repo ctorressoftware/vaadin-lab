@@ -1,6 +1,6 @@
 package com.ctorres.vaadinlab.animal.ui;
 
-import com.ctorres.vaadinlab.entity.Animal;
+import com.ctorres.vaadinlab.animal.entity.Animal;
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;

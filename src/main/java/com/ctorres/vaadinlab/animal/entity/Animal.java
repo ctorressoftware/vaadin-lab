@@ -1,4 +1,4 @@
-package com.ctorres.vaadinlab.entity;
+package com.ctorres.vaadinlab.animal.entity;
 
 import com.ctorres.vaadinlab.animal.Gender;
 import com.ctorres.vaadinlab.animal.Specie;

@@ -1,6 +1,6 @@
 package com.ctorres.vaadinlab.animal;
 
-import com.ctorres.vaadinlab.entity.Animal;
+import com.ctorres.vaadinlab.animal.entity.Animal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
