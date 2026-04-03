@@ -27,9 +27,9 @@ public class AnimalService {
                 .toList();
     }
 
-    public Optional<Animal> findAnimalByName(String name) {
-        if (name == null || name.isBlank()) throw new RuntimeException("name is required");
-        return animalRepository.findAnimalByName(name);
+    public Optional<Animal> findAnimalById(UUID id) {
+        if (id == null) throw new RuntimeException("id is required");
+        return animalRepository.findById(id);
     }
 
     public void editAnimal(Animal animal) {

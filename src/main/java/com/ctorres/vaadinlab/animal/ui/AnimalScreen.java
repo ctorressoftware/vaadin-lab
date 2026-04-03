@@ -79,7 +79,7 @@ public class AnimalScreen extends VerticalLayout {
 
         table.addComponentColumn(animal -> {
             var viewButton = new Button("View", event -> UI.getCurrent()
-                    .navigate(AnimalDetails.class, animal.getName()));
+                    .navigate(AnimalDetails.class, animal.getId().toString()));
             viewButton.getStyle().set("width", "80%");
             viewButton.getStyle().set("background-color", "#FFFBF1");
             return viewButton;

@@ -14,6 +14,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 
+import java.util.UUID;
+
 @Route(value = "/details")
 public class AnimalDetails extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
     private Animal animal;
@@ -29,10 +31,10 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
     }
 
     @Override
-    public void setParameter(BeforeEvent beforeEvent, String parameter) {
-        if (parameter == null || parameter.isBlank()) throw new RuntimeException("name parameter is required");
-        this.animal = animalService.findAnimalByName(parameter)
-                .orElseThrow(() -> new RuntimeException("Animal doesn't exists. Name =" + parameter));
+    public void setParameter(BeforeEvent beforeEvent, String uuid) {
+        if (uuid == null) throw new RuntimeException("UUID parameter is required");
+        this.animal = animalService.findAnimalById(UUID.fromString(uuid))
+                .orElseThrow(() -> new RuntimeException("Animal doesn't exists. UUID =" + uuid));
     }
 
     @Override
