@@ -38,7 +38,7 @@ public class ContactForm extends FormLayout {
         ageField.setPlaceholder("1");
         emailField.setPlaceholder("test@test.com");
         phoneField.setPlaceholder("809-179-8982");
-        addressField.setPlaceholder("1400 United States, Brooklyn");
+        addressField.setPlaceholder("1400 United Street, Brooklyn");
         reasonToAdoptField.setPlaceholder("Write reason about why you want to adopt it...");
 
         fullNameField.setRequired(true);
