@@ -1,4 +1,4 @@
-package com.ctorres.vaadinlab.animal.ui;
+package com.ctorres.vaadinlab.common.ui;
 
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;

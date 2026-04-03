@@ -1,4 +1,4 @@
-package com.ctorres.vaadinlab.contact.ui;
+package com.ctorres.vaadinlab.common.ui;
 
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
@@ -6,12 +6,12 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Paragraph;
 
-public class ContactResultModal extends Dialog {
-    private final boolean success;
+public class ResultModal extends Dialog {
+    private final String title;
     private final String result;
 
-    public ContactResultModal(boolean success, String result, float width) {
-        this.success = success;
+    public ResultModal(String title, String result, float width) {
+        this.title = title;
         this.result = result;
         this.configureModalDialog(width);
         this.configureButtons();
@@ -24,7 +24,7 @@ public class ContactResultModal extends Dialog {
     }
 
     private void configureModalDialog(float width) {
-        setHeaderTitle(success ? "Contact created successfully!" : "Oops! Something bad occurred :(");
+        setHeaderTitle(title);
         setWidth(width, Unit.PERCENTAGE);
         add(new Paragraph(result));
     }
