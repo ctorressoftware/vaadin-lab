@@ -3,7 +3,9 @@ package com.ctorres.vaadinlab.animal.ui;
 import com.ctorres.vaadinlab.entity.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -14,6 +16,7 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
     private Animal animal;
     private final AnimalService animalService;
     private final H2 title = new H2("Animal details");
+    private final Button backButton = new Button("Back");
 
     public AnimalDetails(AnimalService animalService) {
         this.animalService = animalService;
@@ -29,12 +32,13 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
         removeAll();
-        showTitle();
+        showTitleAndBackButton();
         showAnimalInformation();
     }
 
-    private void showTitle() {
-        add(title);
+    private void showTitleAndBackButton() {
+        backButton.addClickListener(event -> UI.getCurrent().navigate("/"));
+        add(title, backButton);
     }
 
     private <T extends Component> Div createContentFrame(String title, T data, boolean isVertical) {
