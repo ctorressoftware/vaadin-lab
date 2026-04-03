@@ -67,10 +67,8 @@ public class ContactForm extends FormLayout {
         addFormItem(reasonToAdoptField, "Reasons to adopt");
     }
 
-    // TODO: make validations for each field
     private boolean validate() {
         clearErrors();
-
         boolean result = true;
         if (fullNameField.isRequired() && fullNameField.getValue().isBlank()) {
             fullNameField.getStyle().set("border", "1px solid red");
@@ -79,6 +77,27 @@ public class ContactForm extends FormLayout {
 
         if (ageField.isRequired() && (ageField.getValue() == null || ageField.getValue() <= 0)) {
             ageField.getStyle().set("border", "1px solid red");
+            result = false;
+        }
+
+        if (emailField.isRequired() &&
+                !emailField.getValue().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")) {
+            emailField.getStyle().set("border", "1px solid red");
+            result = false;
+        }
+
+        if (phoneField.isRequired() && !(phoneField.getValue().length() == 10)) {
+            phoneField.getStyle().set("border", "1px solid red");
+            result = false;
+        }
+
+        if (addressField.isRequired() && addressField.getValue().isBlank()) {
+            addressField.getStyle().set("border", "1px solid red");
+            result = false;
+        }
+
+        if (reasonToAdoptField.isRequired() && reasonToAdoptField.getValue().isBlank()) {
+            reasonToAdoptField.getStyle().set("border", "1px solid red");
             result = false;
         }
 
