@@ -40,14 +40,8 @@ public class Contact {
         this.reasonToAdopt = reasonToAdopt;
     }
 
-    public Contact(UUID id, String fullName, int age, String email, String phone, String address, String reasonToAdopt) {
-        this.id = id;
-        this.fullName = fullName;
-        this.age = age;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.reasonToAdopt = reasonToAdopt;
+    public String getFullName() {
+        return fullName;
     }
 
     @Override
