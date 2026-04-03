@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -58,10 +59,18 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void configureNewButton() {
-        newButton.addClickListener(event -> new AnimalDialog(animal -> {
-            animalService.save(animal);
-            refreshTable(findAllAnimals());
-        }).open());
+        newButton.addClickListener(event -> createAnimalDialog().open());
+    }
+
+    private AnimalDialog createAnimalDialog() {
+        return new AnimalDialog(animal -> {
+            try {
+                animalService.save(animal);
+                refreshTable(findAllAnimals());
+            } catch (RuntimeException e) {
+                Notification.show("An error occurred");
+            }
+        });
     }
 
     private void configureTable() {
