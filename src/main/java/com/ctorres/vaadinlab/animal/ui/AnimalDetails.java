@@ -7,6 +7,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
@@ -17,6 +18,7 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
     private final AnimalService animalService;
     private final H2 title = new H2("Animal details");
     private final Button backButton = new Button("Back");
+    private final Button adoptButton = new Button();
 
     public AnimalDetails(AnimalService animalService) {
         this.animalService = animalService;
@@ -34,6 +36,7 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
         removeAll();
         showTitleAndBackButton();
         showAnimalInformation();
+        showAdoptButton();
     }
 
     private void showTitleAndBackButton() {
@@ -60,6 +63,14 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
                         setPhotoDimensions(animal.getImage(), "Animal photo"),
                 animal.getImage() != null);
         add(new VerticalLayout(id, name, gender, age, specie, personality, photo));
+    }
+
+    private void showAdoptButton() {
+        adoptButton.setText("Adopt " + animal.getName() + "! :)");
+        adoptButton.addClickListener(event -> {
+            Notification.show("Please adopt me! :D");
+        });
+        add();
     }
 
     private Image setPhotoDimensions(String url, String alt) {
