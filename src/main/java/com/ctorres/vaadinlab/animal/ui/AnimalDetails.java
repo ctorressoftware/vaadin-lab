@@ -64,7 +64,7 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
         var specie = createContentFrame("Specie:", new Paragraph(animal.getSpecie().name()), false);
         var personality = createContentFrame("Personality:", new Paragraph(animal.getPersonality()), false);
         var photo = createContentFrame("Photo:", animal.getImage() == null ? new Paragraph("No image") :
-                        setPhotoDimensions(animal.getImage(), "Animal photo"),
+                        setPhotoDimensions(animal.getImage()),
                 animal.getImage() != null);
         add(new VerticalLayout(id, name, gender, age, specie, personality, photo));
     }
@@ -97,8 +97,8 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
         return new ContactResultModal(success, result, width);
     }
 
-    private Image setPhotoDimensions(String url, String alt) {
-        var image = new Image(url, alt);
+    private Image setPhotoDimensions(String url) {
+        var image = new Image(url, animal.getName() + " animal photo");
         image.setWidth(30f, Unit.PERCENTAGE);
         return image;
     }
