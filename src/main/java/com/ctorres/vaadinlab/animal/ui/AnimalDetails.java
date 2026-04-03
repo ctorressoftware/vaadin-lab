@@ -4,12 +4,12 @@ import com.ctorres.vaadinlab.animal.entity.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
 import com.ctorres.vaadinlab.contact.ContactService;
 import com.ctorres.vaadinlab.contact.ui.ContactDialog;
+import com.ctorres.vaadinlab.contact.ui.ContactResultModal;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
@@ -77,13 +77,24 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
 
     private ContactDialog createContactDialog() {
         return new ContactDialog(contact -> {
-            var contactAdded = contactService.save(contact);
-            if (contactAdded == null) {
-                Notification.show("An error occurs trying to save contact: " + contact.toString());
-                return;
+            try {
+                contactService.save(contact);
+                createResultDialog(true, """
+                                We registered your contact information successfully.
+                                You will be contacted in the next 24 hours.""",
+                        40f
+                ).open();
+            } catch (RuntimeException ex) {
+                createResultDialog(false,
+                        "An error occurred while trying to save the user's contact: " + contact.getFullName(),
+                        30f
+                ).open();
             }
-            Notification.show("Contact saved");
         });
+    }
+
+    private ContactResultModal createResultDialog(boolean success, String result, float width) {
+        return new ContactResultModal(success, result, width);
     }
 
     private Image setPhotoDimensions(String url, String alt) {
