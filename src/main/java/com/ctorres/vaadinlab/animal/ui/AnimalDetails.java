@@ -2,6 +2,7 @@ package com.ctorres.vaadinlab.animal.ui;
 
 import com.ctorres.vaadinlab.animal.entity.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
+import com.ctorres.vaadinlab.contact.ui.ContactDialog;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
@@ -67,10 +68,10 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
 
     private void showAdoptButton() {
         adoptButton.setText("Adopt " + animal.getName() + "! :)");
-        adoptButton.addClickListener(event -> {
-            Notification.show("Please adopt me! :D");
-        });
-        add();
+        adoptButton.addClickListener(event -> new ContactDialog(contact ->
+                Notification.show("Contact saved")) // TODO: add saveContact method
+                .open());
+        add(adoptButton);
     }
 
     private Image setPhotoDimensions(String url, String alt) {
