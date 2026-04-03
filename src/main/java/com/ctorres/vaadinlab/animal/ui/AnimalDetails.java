@@ -4,7 +4,7 @@ import com.ctorres.vaadinlab.animal.entity.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
 import com.ctorres.vaadinlab.contact.ContactService;
 import com.ctorres.vaadinlab.contact.ui.ContactDialog;
-import com.ctorres.vaadinlab.contact.ui.ContactResultModal;
+import com.ctorres.vaadinlab.common.ui.ResultModal;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
@@ -81,13 +81,13 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
         return new ContactDialog(contact -> {
             try {
                 contactService.save(contact);
-                createResultDialog(true, """
+                createResultDialog("Contact created successfully!", """
                                 We registered your contact information successfully.
                                 You will be contacted in the next 24 hours.""",
                         40f
                 ).open();
             } catch (RuntimeException ex) {
-                createResultDialog(false,
+                createResultDialog("Oops! Something bad occurred :(",
                         "An error occurred while trying to save the user's contact: " + contact.getFullName(),
                         30f
                 ).open();
@@ -95,8 +95,8 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
         });
     }
 
-    private ContactResultModal createResultDialog(boolean success, String result, float width) {
-        return new ContactResultModal(success, result, width);
+    private ResultModal createResultDialog(String title, String result, float width) {
+        return new ResultModal(title, result, width);
     }
 
     private Image setPhotoDimensions(String url) {
