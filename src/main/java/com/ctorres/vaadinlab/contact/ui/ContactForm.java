@@ -39,7 +39,7 @@ public class ContactForm extends FormLayout {
         emailField.setPlaceholder("test@test.com");
         phoneField.setPlaceholder("809-179-8982");
         addressField.setPlaceholder("1400 United Street, Brooklyn");
-        reasonToAdoptField.setPlaceholder("Write reason about why you want to adopt it...");
+        reasonToAdoptField.setPlaceholder("Write reasons about why you want to adopt it...");
 
         fullNameField.setRequired(true);
         ageField.setRequired(true);
