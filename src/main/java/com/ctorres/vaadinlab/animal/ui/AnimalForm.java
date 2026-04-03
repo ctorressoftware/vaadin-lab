@@ -10,6 +10,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class AnimalForm extends FormLayout {
     private final TextField nameField = new TextField();
@@ -18,6 +19,7 @@ public class AnimalForm extends FormLayout {
     private final IntegerField ageField = new IntegerField();
     private final ComboBox<Specie> specieComboBox = new ComboBox<>();
     private final TextArea personalityField = new TextArea();
+    private UUID id = null;
 
     public AnimalForm() {
         configureForm();
@@ -54,6 +56,7 @@ public class AnimalForm extends FormLayout {
     }
 
     private void configureAnimalToEdit(Animal animalToEdit) {
+        id = animalToEdit.getId();
         nameField.setValue(animalToEdit.getName());
         imageUrlField.setValue(animalToEdit.getImage());
         ageField.setValue(animalToEdit.getAge());
@@ -133,6 +136,7 @@ public class AnimalForm extends FormLayout {
         }
 
         return new Animal(
+                id,
                 nameField.getValue(),
                 imageUrlField.getValue(),
                 genderComboBox.getValue(),
