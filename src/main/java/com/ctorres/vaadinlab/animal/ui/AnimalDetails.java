@@ -2,6 +2,7 @@ package com.ctorres.vaadinlab.animal.ui;
 
 import com.ctorres.vaadinlab.animal.entity.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
+import com.ctorres.vaadinlab.contact.ContactService;
 import com.ctorres.vaadinlab.contact.ui.ContactDialog;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -17,12 +18,14 @@ import com.vaadin.flow.router.*;
 public class AnimalDetails extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
     private Animal animal;
     private final AnimalService animalService;
+    private final ContactService contactService;
     private final H2 title = new H2("Animal details");
     private final Button backButton = new Button("Back");
     private final Button adoptButton = new Button();
 
-    public AnimalDetails(AnimalService animalService) {
+    public AnimalDetails(AnimalService animalService, ContactService contactService) {
         this.animalService = animalService;
+        this.contactService = contactService;
     }
 
     @Override
@@ -68,10 +71,19 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
 
     private void showAdoptButton() {
         adoptButton.setText("Adopt " + animal.getName() + "! :)");
-        adoptButton.addClickListener(event -> new ContactDialog(contact ->
-                Notification.show("Contact saved")) // TODO: add saveContact method
-                .open());
+        adoptButton.addClickListener(event -> createContactDialog().open());
         add(adoptButton);
+    }
+
+    private ContactDialog createContactDialog() {
+        return new ContactDialog(contact -> {
+            var contactAdded = contactService.save(contact);
+            if (contactAdded == null) {
+                Notification.show("An error occurs trying to save contact: " + contact.toString());
+                return;
+            }
+            Notification.show("Contact saved");
+        });
     }
 
     private Image setPhotoDimensions(String url, String alt) {
