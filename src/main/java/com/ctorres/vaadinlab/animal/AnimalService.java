@@ -19,12 +19,9 @@ public class AnimalService {
         return animalRepository.findAll();
     }
 
-    // TODO: Query animals by name directly in the database instead of loading all records first.
-    public List<Animal> findAnimalsByName(String name) {
+    public List<Animal> findAnimalsByNameContaining(String name) {
         if (name == null || name.isBlank()) throw new RuntimeException("name is required");
-        return animalRepository.findAll().stream()
-                .filter(animal -> animal.getName().toLowerCase().contains(name.toLowerCase().trim()))
-                .toList();
+        return animalRepository.findByNameContainingIgnoreCase(name.trim());
     }
 
     public Optional<Animal> findAnimalById(UUID id) {
@@ -42,7 +39,7 @@ public class AnimalService {
         animalRepository.deleteById(id);
     }
 
-    public Animal save(Animal animal) {
-        return animalRepository.save(animal);
+    public void save(Animal animal) {
+        animalRepository.save(animal);
     }
 }

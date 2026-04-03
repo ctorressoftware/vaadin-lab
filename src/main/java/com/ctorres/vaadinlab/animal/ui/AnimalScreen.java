@@ -123,7 +123,7 @@ public class AnimalScreen extends VerticalLayout {
         String normalizedQuery = query == null ? "" : query.trim();
         return normalizedQuery.isBlank()
                 ? animalService.findAllAnimals()
-                : animalService.findAnimalsByName(normalizedQuery);
+                : animalService.findAnimalsByNameContaining(normalizedQuery);
     }
 
     private void configureActions() {
