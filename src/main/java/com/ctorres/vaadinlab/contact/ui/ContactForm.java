@@ -67,6 +67,7 @@ public class ContactForm extends FormLayout {
         addFormItem(reasonToAdoptField, "Reasons to adopt");
     }
 
+    // TODO: make validations for each field
     private boolean validate() {
         clearErrors();
 
