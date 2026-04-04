@@ -75,19 +75,6 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
         return header;
     }
 
-    private void showTitleAndBackButton() {
-        backButton.addClickListener(event -> UI.getCurrent().navigate(Routes.DEFAULT_PAGE));
-        add(title, backButton);
-    }
-
-    private <T extends Component> Div createContentFrame(String title, T data, boolean isVertical) {
-        var header = new Paragraph(title);
-        var content = isVertical ?
-                new VerticalLayout(header, data) :
-                new HorizontalLayout(header, data);
-        return new Div(content);
-    }
-
     private Component buildAnimalInformationCard() {
         var content = new VerticalLayout(
                 createInfoRow("ID:", animal.getId().toString()),
@@ -96,7 +83,7 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
                 createInfoRow("Age:", String.valueOf(animal.getAge())),
                 createInfoRow("Specie:", animal.getSpecie().name()),
                 createInfoRow("Personality:", animal.getPersonality()),
-                createPhotoRow()
+                createPhotoSection()
         );
 
         content.setPadding(false);
@@ -111,9 +98,7 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
         adoptButton.setText(setAdoptButtonText(animal.getName()));
         adoptButton.addClassName("adopt-btn");
         adoptButton.addClickListener(event -> createContactDialog().open());
-
-        var wrapper = new Div(adoptButton);
-        return wrapper;
+        return new Div(adoptButton);
     }
 
     private Component createInfoRow(String label, String value) {
@@ -132,26 +117,23 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
         return row;
     }
 
-    private Component createPhotoRow() {
-        var labelParagraph = new Paragraph("Photo:");
-        labelParagraph.addClassName("info-label");
+    private Component createPhotoSection() {
+        var label = new Paragraph("Photo:");
+        label.addClassName("photo-label");
 
-        Component valueComponent = animal.getImage() == null
+        var image = animal.getImage() == null
                 ? new Paragraph("No image")
                 : setPhotoDimensions(animal.getImage());
 
-        var row = new HorizontalLayout(labelParagraph, valueComponent);
-        row.addClassName("info-row");
-        row.setWidthFull();
-        row.setAlignItems(Alignment.START);
+        var frame = new Div(image);
+        frame.addClassName("photo-frame");
 
-        return row;
-    }
+        var block = new VerticalLayout(label, frame);
+        block.addClassName("photo-block");
+        block.setPadding(false);
+        block.setSpacing(false);
 
-    private void showAdoptButton() {
-        adoptButton.setText(setAdoptButtonText(animal.getName()));
-        adoptButton.addClickListener(event -> createContactDialog().open());
-        add(adoptButton);
+        return block;
     }
 
     private ContactDialog createContactDialog() {

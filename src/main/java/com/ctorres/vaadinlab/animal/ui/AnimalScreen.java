@@ -42,13 +42,13 @@ public class AnimalScreen extends VerticalLayout {
         configureActions();
         configureTable();
 
-        var actionCard = new Div(buildActionBar());
-        actionCard.addClassName("section-card");
+        var toolbarCard = new Div(buildActionBar());
+        toolbarCard.addClassName("toolbar-card");
 
         var tableCard = new Div(table);
-        tableCard.addClassNames("section-card", "table-card");
+        tableCard.addClassName("table-card");
 
-        add(title, actionCard, tableCard);
+        add(title, toolbarCard, tableCard);
     }
 
     private void configureTitle() {
@@ -68,6 +68,7 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void configureSearchButton() {
+        searchButton.addClassNames("action-button", "search-btn");
         searchButton.addClickListener(event -> handleClickSearchButton(
                 this::searchAnimalsByName,
                 this::reloadAnimalsTable
@@ -93,6 +94,7 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void configureNewButton() {
+        newButton.addClassNames("action-button", "new-btn");
         newButton.addClickListener(event -> showAnimalDialog(
                 animalService::save,
                 () -> reloadAnimalsTable(findAllAnimals())

@@ -1,7 +1,7 @@
 html {
     --lumo-font-family: Inter, system-ui, sans-serif;
     --lumo-border-radius-m: 12px;
-    --lumo-border-radius-l: 16px;
+    --lumo-border-radius-l: 18px;
     --lumo-primary-color: #d97706;
     --lumo-primary-color-50pct: rgba(217, 119, 6, 0.5);
     --lumo-primary-color-10pct: rgba(217, 119, 6, 0.1);
@@ -13,34 +13,47 @@ html {
 }
 
 body {
-    background: linear-gradient(180deg, #fffaf3 0%, #fff4e6 100%);
+    background:
+            radial-gradient(circle at top left, rgba(255, 237, 213, 0.55), transparent 30%),
+            linear-gradient(180deg, #fffaf3 0%, #f7efe3 100%);
 }
 
-/* Screen shell */
+/* General screen shell */
 .app-screen {
-    max-width: 1100px;
+    max-width: 1120px;
     margin: 0 auto;
-    padding: 1.25rem;
+    padding: 2rem 1.25rem 3rem;
     box-sizing: border-box;
 }
 
 .screen-title {
-    margin: 0;
+    margin: 0 0 1rem 0;
     font-weight: 800;
-    letter-spacing: -0.02em;
-    color: #2b2118;
+    font-size: 2.5rem;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #2c2016;
 }
 
-.section-card {
+/* Shared elevated card */
+.section-card,
+.table-card,
+.details-card,
+.toolbar-card {
     background: rgba(255, 255, 255, 0.82);
     border: 1px solid rgba(120, 90, 60, 0.08);
-    border-radius: 18px;
-    padding: 1rem;
-    box-shadow: 0 10px 30px rgba(82, 63, 44, 0.08);
-    backdrop-filter: blur(6px);
+    border-radius: 22px;
+    box-shadow: 0 12px 30px rgba(70, 52, 36, 0.08);
+    backdrop-filter: blur(8px);
 }
 
-/* Top action bar */
+/* Top toolbar */
+.toolbar-card {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
 .action-bar {
     width: 100%;
     align-items: end;
@@ -50,47 +63,84 @@ body {
 
 .action-search {
     flex: 1;
-    min-width: 240px;
+    min-width: 280px;
 }
 
 .action-button {
-    border-radius: 12px;
-    font-weight: 600;
+    border-radius: 14px;
+    font-weight: 700;
+    min-width: 110px;
 }
 
-/* Grid container */
+/* Make Search secondary */
+.search-btn {
+    background: #fff7ed;
+    color: #9a5a00;
+    border: 1px solid rgba(217, 119, 6, 0.16);
+}
+
+/* Make New primary */
+.new-btn {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    box-shadow: 0 10px 22px rgba(217, 119, 6, 0.22);
+}
+
+/* Table container */
 .table-card {
     width: 100%;
+    padding: 0.9rem;
+    border-radius: 24px;
 }
 
-/* Action buttons inside table */
-.view-btn {
+/* Table fine tuning */
+vaadin-grid,
+vaadin-grid::part(scroller) {
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+vaadin-grid::part(header-cell) {
+    background: #f8f1e7;
+    color: #4a3829;
+    font-weight: 700;
+}
+
+vaadin-grid::part(body-cell) {
+    background: rgba(255, 255, 255, 0.72);
+}
+
+vaadin-grid::part(row):hover ::part(body-cell) {
+    background: #fff8ef;
+}
+
+/* Row action buttons */
+.view-btn,
+.edit-btn,
+.delete-btn {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+.view-btn {
     background: #fff7e8;
-    color: #7c5700;
-    font-weight: 600;
+    color: #8b5e00;
 }
 
 .edit-btn {
-    width: 100%;
-    border-radius: 10px;
-    background: #ffe0b2;
-    color: #7a4100;
-    font-weight: 600;
+    background: #ffe7c2;
+    color: #8a4b00;
 }
 
 .delete-btn {
-    width: 100%;
-    border-radius: 10px;
     background: #fee2e2;
     color: #991b1b;
-    font-weight: 600;
 }
 
-/* Details page */
+/* Details */
 .details-wrapper {
-    max-width: 860px;
+    max-width: 900px;
     margin: 0 auto;
     width: 100%;
     gap: 1rem;
@@ -106,16 +156,12 @@ body {
 
 .details-card {
     width: 100%;
-    background: rgba(255, 255, 255, 0.88);
-    border: 1px solid rgba(120, 90, 60, 0.08);
-    border-radius: 18px;
-    padding: 1rem 1.25rem;
-    box-shadow: 0 10px 30px rgba(82, 63, 44, 0.08);
+    padding: 1.25rem 1.4rem;
 }
 
 .info-row {
     width: 100%;
-    padding: 0.75rem 0;
+    padding: 0.9rem 0;
     border-bottom: 1px solid rgba(120, 90, 60, 0.08);
 }
 
@@ -125,9 +171,9 @@ body {
 
 .info-label {
     margin: 0;
-    font-weight: 700;
+    font-weight: 800;
     min-width: 120px;
-    color: #5a4634;
+    color: #5b4633;
 }
 
 .info-value {
@@ -135,21 +181,51 @@ body {
     color: #2f2a24;
 }
 
+/* Better photo section */
+.photo-block {
+    width: 100%;
+    padding-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.photo-label {
+    align-self: flex-start;
+    margin: 0;
+    font-weight: 800;
+    color: #5b4633;
+}
+
+.photo-frame {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #fffdf9 0%, #f8f1e7 100%);
+    border: 1px solid rgba(120, 90, 60, 0.06);
+}
+
 .animal-image {
-    border-radius: 16px;
+    width: 320px;
+    max-width: 100%;
+    border-radius: 18px;
     object-fit: cover;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.12);
 }
 
 .adopt-btn {
-    border-radius: 14px;
-    font-weight: 700;
-    padding: 0.8rem 1.2rem;
+    border-radius: 16px;
+    font-weight: 800;
+    padding: 0.9rem 1.25rem;
     background: linear-gradient(135deg, #f59e0b, #d97706);
     color: white;
+    box-shadow: 0 12px 24px rgba(217, 119, 6, 0.22);
 }
 
-/* Form/dialog polish */
+/* Forms */
 .form-section {
     width: 100%;
 }
@@ -165,18 +241,18 @@ vaadin-text-field::part(input-field),
 vaadin-integer-field::part(input-field),
 vaadin-combo-box::part(input-field),
 vaadin-text-area::part(input-field) {
-    border-radius: 12px;
+    border-radius: 14px;
     background: #fffdf9;
     box-shadow: inset 0 0 0 1px rgba(120, 90, 60, 0.08);
 }
 
 vaadin-dialog-overlay::part(content) {
-    border-radius: 20px;
-    padding: 0.5rem;
+    border-radius: 22px;
+    padding: 0.75rem;
 }
 
 vaadin-button {
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
 vaadin-button:hover {
