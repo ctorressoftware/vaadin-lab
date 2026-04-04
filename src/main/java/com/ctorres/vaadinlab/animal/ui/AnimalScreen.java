@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-@Route(value = Routes.DEFAULT_ROUTE)
+@Route(value = Routes.DEFAULT_PAGE)
 public class AnimalScreen extends VerticalLayout {
     private final AnimalService animalService;
     private final H1 title = new H1(SCREEN_TITLE);
