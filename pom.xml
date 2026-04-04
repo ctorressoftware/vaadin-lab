@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ctorres</groupId>
-    <artifactId>vaadin-lab</artifactId>
+    <artifactId>pet-adoption-ui</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>vaadin-lab</name>
-    <description>vaadin-lab</description>
+    <name>pet-adoption-ui</name>
+    <description>Vaadin + Spring Boot application for managing a simple pet adoption flow</description>
     <url/>
     <licenses>
         <license/>
