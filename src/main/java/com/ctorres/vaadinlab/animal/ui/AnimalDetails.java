@@ -12,6 +12,8 @@ import static com.ctorres.vaadinlab.common.UIConstants.*;
 import com.ctorres.vaadinlab.contact.ContactService;
 import com.ctorres.vaadinlab.contact.ui.ContactDialog;
 import com.ctorres.vaadinlab.common.ui.ResultModal;
+import com.ctorres.vaadinlab.exception.AnimalNotFoundException;
+import com.ctorres.vaadinlab.exception.MissedUUIDParameterException;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
@@ -39,9 +41,9 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
 
     @Override
     public void setParameter(BeforeEvent beforeEvent, String uuid) {
-        if (uuid == null) throw new RuntimeException("UUID parameter is required");
+        if (uuid == null) throw new MissedUUIDParameterException();
         this.animal = animalService.findAnimalById(UUID.fromString(uuid))
-                .orElseThrow(() -> new RuntimeException("Animal doesn't exists. UUID =" + uuid));
+                .orElseThrow(() -> new AnimalNotFoundException(uuid));
     }
 
     @Override
