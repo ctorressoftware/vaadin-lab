@@ -8,6 +8,8 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.function.SerializableConsumer;
 
+import static com.ctorres.vaadinlab.contact.ContactMessages.*;
+
 public class ContactDialog extends Dialog {
     private final SerializableConsumer<Contact> onSaveCallback;
     private final ContactForm form;
@@ -27,7 +29,7 @@ public class ContactDialog extends Dialog {
     }
 
     private void configureModalDialog() {
-        setHeaderTitle("Give us some information about you");
+        setHeaderTitle(CONTACT_FORM_TITLE);
         setWidth(40.0f, Unit.PERCENTAGE);
         add(form);
     }
@@ -35,7 +37,7 @@ public class ContactDialog extends Dialog {
     private void save() {
         var contact = form.getFormData();
         if (contact == null) {
-            Notification.show("You have to complete all required fields");
+            Notification.show(ERROR_COMPLETING_FORM_FIELDS);
             return;
         }
         onSaveCallback.accept(contact);

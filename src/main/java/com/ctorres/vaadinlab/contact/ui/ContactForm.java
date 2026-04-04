@@ -7,6 +7,8 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 
+import static com.ctorres.vaadinlab.contact.ContactMessages.EMAIL_REGEX_PATTERN;
+
 public class ContactForm extends FormLayout {
     private final TextField fullNameField = new TextField();
     private final IntegerField ageField = new IntegerField();
@@ -81,7 +83,7 @@ public class ContactForm extends FormLayout {
         }
 
         if (emailField.isRequired() &&
-                !emailField.getValue().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")) {
+                !emailField.getValue().matches(EMAIL_REGEX_PATTERN)) {
             emailField.getStyle().set("border", "1px solid red");
             result = false;
         }
