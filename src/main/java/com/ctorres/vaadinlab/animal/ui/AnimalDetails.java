@@ -1,7 +1,14 @@
 package com.ctorres.vaadinlab.animal.ui;
 
+import static com.ctorres.vaadinlab.animal.AnimalMessages.*;
+
 import com.ctorres.vaadinlab.animal.entity.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
+import com.ctorres.vaadinlab.common.Routes;
+import com.ctorres.vaadinlab.contact.ContactMessages;
+
+import static com.ctorres.vaadinlab.common.UIConstants.*;
+
 import com.ctorres.vaadinlab.contact.ContactService;
 import com.ctorres.vaadinlab.contact.ui.ContactDialog;
 import com.ctorres.vaadinlab.common.ui.ResultModal;
@@ -16,12 +23,12 @@ import com.vaadin.flow.router.*;
 
 import java.util.UUID;
 
-@Route(value = "/details")
+@Route(value = Routes.DETAILS_PAGE)
 public class AnimalDetails extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
     private Animal animal;
     private final AnimalService animalService;
     private final ContactService contactService;
-    private final H2 title = new H2("Animal details");
+    private final H2 title = new H2(DETAILS_TITLE);
     private final Button backButton = new Button("Back");
     private final Button adoptButton = new Button();
 
@@ -46,7 +53,7 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
     }
 
     private void showTitleAndBackButton() {
-        backButton.addClickListener(event -> UI.getCurrent().navigate("/"));
+        backButton.addClickListener(event -> UI.getCurrent().navigate(Routes.DEFAULT_PAGE));
         add(title, backButton);
     }
 
@@ -72,7 +79,7 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
     }
 
     private void showAdoptButton() {
-        adoptButton.setText("Adopt " + animal.getName() + "! :)");
+        adoptButton.setText(setAdoptButtonText(animal.getName()));
         adoptButton.addClickListener(event -> createContactDialog().open());
         add(adoptButton);
     }
@@ -81,15 +88,13 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
         return new ContactDialog(contact -> {
             try {
                 contactService.save(contact);
-                createResultDialog("Contact created successfully!", """
-                                We registered your contact information successfully.
-                                You will be contacted in the next 24 hours.""",
-                        40f
-                ).open();
+                createResultDialog(
+                        ContactMessages.SUCCESS_TITLE, ContactMessages.SUCCESS_MESSAGE, SUCCESS_MODAL_WIDTH).open();
             } catch (RuntimeException ex) {
-                createResultDialog("Oops! Something bad occurred :(",
-                        "An error occurred while trying to save the user's contact: " + contact.getFullName(),
-                        30f
+                createResultDialog(
+                        ContactMessages.ERROR_TITLE,
+                        ContactMessages.errorSavingContact(contact.getFullName()),
+                        ERROR_MODAL_WIDTH
                 ).open();
             }
         });
@@ -100,8 +105,8 @@ public class AnimalDetails extends VerticalLayout implements HasUrlParameter<Str
     }
 
     private Image setPhotoDimensions(String url) {
-        var image = new Image(url, animal.getName() + " animal photo");
-        image.setWidth(30f, Unit.PERCENTAGE);
+        var image = new Image(url, setAnimalPhotoAlt(animal.getName()));
+        image.setWidth(ANIMAL_PHOTO_WIDTH, Unit.PERCENTAGE);
         return image;
     }
 }

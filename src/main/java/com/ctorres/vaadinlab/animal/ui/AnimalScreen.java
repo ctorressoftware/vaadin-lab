@@ -8,7 +8,7 @@ import com.ctorres.vaadinlab.animal.AnimalService;
 import static com.ctorres.vaadinlab.common.DialogHelper.*;
 
 import com.ctorres.vaadinlab.common.Routes;
-import com.ctorres.vaadinlab.common.UIConstants;
+import static com.ctorres.vaadinlab.common.UIConstants.*;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
@@ -71,7 +71,7 @@ public class AnimalScreen extends VerticalLayout {
             List<Animal> result = action.get();
             onSuccess.accept(result);
         } catch (RuntimeException e) {
-            showResultDialog(ERROR_TITLE, ERROR_LOADING_ANIMALS, UIConstants.MODAL_WIDTH).open();
+            showResultDialog(ERROR_TITLE, ERROR_LOADING_ANIMALS, ERROR_MODAL_WIDTH).open();
         }
     }
 
@@ -97,7 +97,7 @@ public class AnimalScreen extends VerticalLayout {
                 action.accept(animal);
                 onSuccess.run();
             } catch (RuntimeException e) {
-                showResultDialog(ERROR_TITLE, errorSavingAnimal(animal.getName()), UIConstants.MODAL_WIDTH).open();
+                showResultDialog(ERROR_TITLE, errorSavingAnimal(animal.getName()), ERROR_MODAL_WIDTH).open();
             }
         });
     }
@@ -108,7 +108,7 @@ public class AnimalScreen extends VerticalLayout {
                 action.accept(animal);
                 onSuccess.run();
             } catch (RuntimeException e) {
-                showResultDialog(ERROR_TITLE, errorEditingAnimal(animal.getName()), UIConstants.MODAL_WIDTH).open();
+                showResultDialog(ERROR_TITLE, errorEditingAnimal(animal.getName()), ERROR_MODAL_WIDTH).open();
             }
         });
     }
@@ -189,7 +189,7 @@ public class AnimalScreen extends VerticalLayout {
         try {
             return animalService.findAllAnimals();
         } catch (RuntimeException e) {
-            showResultDialog(ERROR_TITLE, ERROR_LOADING_ANIMALS, UIConstants.MODAL_WIDTH).open();
+            showResultDialog(ERROR_TITLE, ERROR_LOADING_ANIMALS, ERROR_MODAL_WIDTH).open();
         }
         return List.of();
     }
