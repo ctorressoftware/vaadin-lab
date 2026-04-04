@@ -12,6 +12,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import java.util.Arrays;
 import java.util.UUID;
 
+import static com.ctorres.vaadinlab.animal.AnimalMessages.URL_REGEX_PATTERN;
+
 public class AnimalForm extends FormLayout {
     private final TextField nameField = new TextField();
     private final TextField imageUrlField = new TextField();
@@ -102,8 +104,7 @@ public class AnimalForm extends FormLayout {
         }
 
         if (imageUrlField.isRequired()) {
-            var urlPattern = "^(?i)https?:\\/\\/.*\\.(png|jpg|jpeg|gif|bmp|webp|svg)(\\?.*)?$";
-            if (imageUrlField.getValue().isBlank() || !imageUrlField.getValue().matches(urlPattern)) {
+            if (imageUrlField.getValue().isBlank() || !imageUrlField.getValue().matches(URL_REGEX_PATTERN)) {
                 imageUrlField.getStyle().set("border", "1px solid red");
                 result = false;
             }

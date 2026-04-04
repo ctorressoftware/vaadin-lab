@@ -4,9 +4,10 @@ public class AnimalMessages {
     public static final String SCREEN_TITLE = "Animals for adoption";
     public static final String DETAILS_TITLE = "Animal details";
     public static final String ERROR_TITLE = "Oops! Something bad occurred :(";
-    public static final String ERROR_LOADING_ANIMALS = "Failed to load animals. Please check your connection and try again.";
+    public static final String ERROR_LOADING_ANIMALS = "Failed to load animals. Check your connection and try again.";
     public static final String ERROR_COMPLETING_FORM_FIELDS = "You have to complete all required fields";
     public static final String NO_ANIMALS = "No animals to adopt";
+    public static final String URL_REGEX_PATTERN = "^(?i)https?:\\/\\/.*\\.(png|jpg|jpeg|gif|bmp|webp|svg)(\\?.*)?$";
 
     public static String errorSavingAnimal(String name) {
         return "Error while trying to save animal: " + name;
