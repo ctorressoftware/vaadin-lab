@@ -1,48 +1,71 @@
-# vaadin-lab
+# pet-adoption-ui
 
-Experimental Vaadin + Spring Boot project exploring server-side UI development as an alternative to client-heavy frontend architectures.
+Vaadin + Spring Boot application for managing a simple pet adoption flow using server-side UI and MySQL persistence.
 
 ## Overview
 
-This project explores a different approach to building web UIs using Vaadin Flow, where the UI is defined and managed entirely on the server.
+This project explores building web applications using Vaadin Flow, where the UI is fully defined and managed on the server.
 
-Instead of relying on client-side frameworks (React, Angular, etc.), Vaadin allows building interactive applications using Java components, with automatic client-server synchronization.
+Unlike client-heavy approaches (React, Angular), this model keeps state and interaction logic in Java, with automatic synchronization between server and browser.
 
-## Context
+The application implements a basic pet adoption workflow, including listing animals, managing their data, and handling contact requests.
 
-Coming from a frontend-heavy background, this lab focuses on understanding:
+## Features
 
-* Trade-offs between server-side UI and client-side rendering
-* State management handled on the server vs in the browser
-* Developer experience compared to modern frontend stacks
-* How far this model can go for real applications
+* Animal listing with search by name
+* Create, edit and delete animals
+* View detailed information for each animal
+* Contact/adoption request flow
+* Modal dialogs for confirmation and feedback
+* Persistent storage using MySQL and JPA
 
 ## Tech stack
 
 * Java 21
 * Spring Boot 4
 * Vaadin Flow
+* Spring Data JPA
+* MySQL
+* Docker & Docker Compose
 * Maven
 
-## Current features
+## Architecture
 
-* Simple UI composition using Vaadin components
-* Basic search interaction
-* Modal dialog with form input
-* In-memory data handling
+The project follows a simple layered structure:
 
-## Run locally
+* `entity` — JPA entities
+* `repository` — data access
+* `service` — business logic
+* `ui` — Vaadin views and components
+
+The focus is on clarity and separation of concerns without over-engineering.
+
+## Running locally
+
+### 1. Start the database
+
+```bash
+docker compose up -d
+```
+
+### 2. Run the application
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-Open:
+### 3. Access the app
 
 http://localhost:8080
 
 ## Notes
 
-* This is an experimental project
-* Focused on architectural exploration, not production concerns
-* Data is not persisted
+* This is a focused exploration of server-side UI using Vaadin
+* The project prioritizes simplicity and clarity over advanced architecture
+* Validation is implemented manually to keep control over UI behavior
+
+## Purpose
+
+This repository exists to evaluate the server-driven UI model and its trade-offs compared to modern client-side frameworks.
+
+It is not intended as a production-ready system, but as a practical exploration of how far this approach can go for real-world applications.
