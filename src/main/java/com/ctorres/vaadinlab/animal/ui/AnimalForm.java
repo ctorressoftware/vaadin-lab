@@ -41,6 +41,7 @@ public class AnimalForm extends FormLayout {
     private void configureForm() {
         setWidthFull();
         setResponsiveSteps(new ResponsiveStep("0", 1));
+        addClassName("form-section");
     }
 
     private void configureFields() {

@@ -42,17 +42,25 @@ public class AnimalScreen extends VerticalLayout {
         configureActions();
         configureTable();
 
-        add(title, buildActionBar(), table);
+        var actionCard = new Div(buildActionBar());
+        actionCard.addClassName("section-card");
+
+        var tableCard = new Div(table);
+        tableCard.addClassNames("section-card", "table-card");
+
+        add(title, actionCard, tableCard);
     }
 
     private void configureTitle() {
         title.setWidthFull();
+        title.addClassName("screen-title");
     }
 
     private void configureLayout() {
         setSizeFull();
-        setPadding(true);
-        setSpacing(true);
+        setPadding(false);
+        setSpacing(false);
+        addClassName("app-screen");
     }
 
     private void configureSearchField() {
@@ -117,8 +125,9 @@ public class AnimalScreen extends VerticalLayout {
         setColumnsOrder();
         configureRowActions();
         table.setAllRowsVisible(true);
-        table.setColumnReorderingAllowed(true);
-        table.setWidth(80f, Unit.PERCENTAGE);
+        table.setColumnReorderingAllowed(false);
+        table.setWidthFull();
+        table.addClassName("table-card");
         table.setEmptyStateText(NO_ANIMALS);
         table.addThemeVariants(GridVariant.AURA_COLUMN_BORDERS);
         reloadAnimalsTable(findAllAnimals());
@@ -129,8 +138,7 @@ public class AnimalScreen extends VerticalLayout {
         table.addComponentColumn(animal -> {
             var viewButton = new Button("View", event -> UI.getCurrent()
                     .navigate(AnimalDetails.class, animal.getId().toString()));
-            viewButton.getStyle().set("width", "80%");
-            viewButton.getStyle().set("background-color", "#FFFBF1");
+            viewButton.addClassName("view-btn");
             return viewButton;
         });
 
@@ -140,8 +148,7 @@ public class AnimalScreen extends VerticalLayout {
                     animalService::editAnimal,
                     () -> reloadAnimalsTable(findAllAnimals())
             ).open());
-            editButton.getStyle().set("width", "80%");
-            editButton.getStyle().set("background-color", "#F3BE7A");
+            editButton.addClassName("edit-btn");
             return editButton;
         });
 
@@ -150,8 +157,7 @@ public class AnimalScreen extends VerticalLayout {
                     () -> animalService.deleteAnimal(animal.getId()),
                     () -> reloadAnimalsTable(findAllAnimals())
             ).open());
-            deleteButton.getStyle().set("width", "80%");
-            deleteButton.getStyle().set("background-color", "#FF5A5A");
+            deleteButton.addClassName("delete-btn");
             return deleteButton;
         });
     }
@@ -173,16 +179,21 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void configureActions() {
+        newButton.addClassNames("action-button");
+        searchButton.addClassNames("action-button");
+        searchField.addClassName("action-search");
         searchField.setPlaceholder("Rufus");
-        searchField.getStyle().set("height", "30px");
-        searchButton.getStyle().set("margin", "0px 10px");
+
         configureSearchButton();
         configureNewButton();
         configureSearchField();
     }
 
     private HorizontalLayout buildActionBar() {
-        return new HorizontalLayout(searchField, searchButton, newButton);
+        var actionBar = new HorizontalLayout(searchField, searchButton, newButton);
+        actionBar.addClassName("action-bar");
+        actionBar.setWidthFull();
+        return actionBar;
     }
 
     private List<Animal> findAllAnimals() {

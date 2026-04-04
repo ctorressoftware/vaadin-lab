@@ -32,7 +32,11 @@ public class AnimalDialog extends Dialog {
     private void configureButtons() {
         var saveButton = new Button("Save", event -> save());
         var cancelButton = new Button("Cancel", event -> close());
+
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        cancelButton.addClassName("action-button");
+        saveButton.addClassName("action-button");
+
         getFooter().add(cancelButton, saveButton);
     }
 
