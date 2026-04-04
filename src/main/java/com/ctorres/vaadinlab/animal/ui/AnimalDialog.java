@@ -8,6 +8,9 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.function.SerializableConsumer;
 
+import static com.ctorres.vaadinlab.animal.AnimalMessages.ERROR_COMPLETING_FORM_FIELDS;
+import static com.ctorres.vaadinlab.common.UIConstants.FORM_DIALOG_WIDTH;
+
 public class AnimalDialog extends Dialog {
     private final SerializableConsumer<Animal> onSaveCallback;
     private final AnimalForm form;
@@ -15,14 +18,14 @@ public class AnimalDialog extends Dialog {
     public AnimalDialog(SerializableConsumer<Animal> onSaveCallback) {
         this.onSaveCallback = onSaveCallback;
         this.form = new AnimalForm();
-        configureModalDialog("Add animal", 40f);
+        configureModalDialog("Add animal");
         configureButtons();
     }
 
     public AnimalDialog(Animal animalToEdit, SerializableConsumer<Animal> onSaveCallback) {
         this.onSaveCallback = onSaveCallback;
         this.form = new AnimalForm(animalToEdit);
-        configureModalDialog("Edit animal", 40f);
+        configureModalDialog("Edit animal");
         configureButtons();
     }
 
@@ -33,16 +36,16 @@ public class AnimalDialog extends Dialog {
         getFooter().add(cancelButton, saveButton);
     }
 
-    private void configureModalDialog(String headerTitle, float width) {
+    private void configureModalDialog(String headerTitle) {
         setHeaderTitle(headerTitle);
-        setWidth(width, Unit.PERCENTAGE);
+        setWidth(FORM_DIALOG_WIDTH, Unit.PERCENTAGE);
         add(form);
     }
 
     private void save() {
         var animal = form.getFormData();
         if (animal == null) {
-            Notification.show("You have to complete all required fields");
+            Notification.show(ERROR_COMPLETING_FORM_FIELDS);
             return;
         }
         onSaveCallback.accept(animal);

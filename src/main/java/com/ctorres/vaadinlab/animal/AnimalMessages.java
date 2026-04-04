@@ -5,6 +5,7 @@ public class AnimalMessages {
     public static final String DETAILS_TITLE = "Animal details";
     public static final String ERROR_TITLE = "Oops! Something bad occurred :(";
     public static final String ERROR_LOADING_ANIMALS = "Failed to load animals. Please check your connection and try again.";
+    public static final String ERROR_COMPLETING_FORM_FIELDS = "You have to complete all required fields";
     public static final String NO_ANIMALS = "No animals to adopt";
 
     public static String errorSavingAnimal(String name) {
