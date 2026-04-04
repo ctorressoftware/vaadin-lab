@@ -2,6 +2,7 @@ package com.ctorres.vaadinlab.animal.ui;
 
 import com.ctorres.vaadinlab.animal.entity.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
+import static com.ctorres.vaadinlab.common.DialogHelper.*;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
@@ -9,7 +10,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -17,6 +17,8 @@ import com.vaadin.flow.router.Route;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @Route(value = "/")
 public class AnimalScreen extends VerticalLayout {
@@ -30,10 +32,15 @@ public class AnimalScreen extends VerticalLayout {
     public AnimalScreen(AnimalService animalService) {
         this.animalService = animalService;
         configureLayout();
+        configureTitle();
         configureActions();
         configureTable();
 
         add(title, buildActionBar(), table);
+    }
+
+    private void configureTitle() {
+        title.setWidthFull();
     }
 
     private void configureLayout() {
@@ -47,28 +54,59 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void configureSearchButton() {
-        searchButton.addClickListener(event -> {
-            String animalName = searchField.getValue();
-            List<Animal> animalsToAdopt = findAnimalsForSearch(animalName);
-            refreshTable(animalsToAdopt);
-        });
+        searchButton.addClickListener(event -> handleClickSearchButton(
+                this::searchAnimalsByName,
+                this::reloadAnimalsTable
+        ));
     }
 
-    private void refreshTable(List<Animal> animals) {
+    private void handleClickSearchButton(Supplier<List<Animal>> action, Consumer<List<Animal>> onSuccess) {
+        List<Animal> result = action.get();
+        onSuccess.accept(result);
+    }
+
+    private List<Animal> searchAnimalsByName() {
+        String animalName = searchField.getValue();
+        return findAnimalsForSearch(animalName);
+    }
+
+    private void reloadAnimalsTable(List<Animal> animals) {
         table.setItems(animals);
     }
 
     private void configureNewButton() {
-        newButton.addClickListener(event -> createAnimalDialog().open());
+        newButton.addClickListener(event -> showAnimalDialog(
+                animalService::save,
+                () -> reloadAnimalsTable(findAllAnimals())
+        ).open());
     }
 
-    private AnimalDialog createAnimalDialog() {
+    private AnimalDialog showAnimalDialog(Consumer<Animal> action, Runnable onSuccess) {
         return new AnimalDialog(animal -> {
             try {
-                animalService.save(animal);
-                refreshTable(findAllAnimals());
+                action.accept(animal);
+                onSuccess.run();
             } catch (RuntimeException e) {
-                Notification.show("An error occurred");
+                showResultDialog(
+                        "Oops! Something bad occurred :(",
+                        "Error while trying to save animal: " + animal.getName(),
+                        30f
+                ).open();
+            }
+        });
+    }
+
+    private AnimalDialog showAnimalDialog(Animal toEdit, Consumer<Animal> action, Runnable onSuccess) {
+        return new AnimalDialog(toEdit,animal -> {
+            try {
+                action.accept(animal);
+                onSuccess.run();
+            } catch (RuntimeException e) {
+                showResultDialog(
+                        "Oops! Something bad occurred :(",
+                        "Error while trying to edit animal: " + animal.getName(),
+                        30f
+                ).open();
             }
         });
     }
@@ -81,7 +119,7 @@ public class AnimalScreen extends VerticalLayout {
         table.setWidth(80f, Unit.PERCENTAGE);
         table.setEmptyStateText("No animals to adopt");
         table.addThemeVariants(GridVariant.AURA_COLUMN_BORDERS);
-        refreshTable(findAllAnimals());
+        reloadAnimalsTable(findAllAnimals());
     }
 
     private void configureRowActions() {
@@ -95,24 +133,21 @@ public class AnimalScreen extends VerticalLayout {
         });
 
         table.addComponentColumn(animal -> {
-            var editButton = new Button("Edit",
-                    event -> new AnimalDialog(animal, editedAnimal -> {
-                        animalService.editAnimal(editedAnimal);
-                        refreshTable(findAllAnimals());
-                    }).open());
+            var editButton = new Button("Edit", event -> showAnimalDialog(
+                    animal,
+                    animalService::editAnimal,
+                    () -> reloadAnimalsTable(findAllAnimals())
+            ).open());
             editButton.getStyle().set("width", "80%");
             editButton.getStyle().set("background-color", "#F3BE7A");
             return editButton;
         });
 
         table.addComponentColumn(animal -> {
-            var deleteButton = new Button("Delete",
-                    event -> new ConfirmDialog(confirmDelete -> {
-                        if (confirmDelete) {
-                            animalService.deleteAnimal(animal.getId());
-                            refreshTable(findAllAnimals());
-                        }
-                    }).open());
+            var deleteButton = new Button("Delete", event -> showConfirmDialog(
+                    () -> animalService.deleteAnimal(animal.getId()),
+                    () -> reloadAnimalsTable(findAllAnimals())
+            ).open());
             deleteButton.getStyle().set("width", "80%");
             deleteButton.getStyle().set("background-color", "#FF5A5A");
             return deleteButton;
@@ -129,10 +164,17 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private List<Animal> findAnimalsForSearch(String query) {
-        String normalizedQuery = query == null ? "" : query.trim();
-        return normalizedQuery.isBlank()
-                ? animalService.findAllAnimals()
-                : animalService.findAnimalsByNameContaining(normalizedQuery);
+        try {
+            String normalizedQuery = query == null ? "" : query.trim();
+            return normalizedQuery.isBlank()
+                    ? animalService.findAllAnimals()
+                    : animalService.findAnimalsByNameContaining(normalizedQuery);
+        } catch (RuntimeException e) {
+            showResultDialog("Oops! Something bad occurred :(",
+                    "Failed to retrieve animals. Please check your connection and try again.",
+                    30f);
+        }
+        return null;
     }
 
     private void configureActions() {
@@ -149,6 +191,13 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private List<Animal> findAllAnimals() {
-        return animalService.findAllAnimals();
+        try {
+            return animalService.findAllAnimals();
+        } catch (RuntimeException e) {
+            showResultDialog("Oops! Something bad occurred :(",
+                    "Failed to load animals. Please check your connection and try again.",
+                    30f);
+        }
+        return null;
     }
 }
