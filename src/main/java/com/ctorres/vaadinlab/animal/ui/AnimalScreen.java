@@ -1,10 +1,14 @@
 package com.ctorres.vaadinlab.animal.ui;
 
+import static com.ctorres.vaadinlab.animal.AnimalMessages.*;
+
 import com.ctorres.vaadinlab.animal.entity.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
 
 import static com.ctorres.vaadinlab.common.DialogHelper.*;
 
+import com.ctorres.vaadinlab.common.Routes;
+import com.ctorres.vaadinlab.common.UIConstants;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
@@ -22,10 +26,10 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-@Route(value = "/")
+@Route(value = Routes.DEFAULT_ROUTE)
 public class AnimalScreen extends VerticalLayout {
     private final AnimalService animalService;
-    private final H1 title = new H1("Animals for adoption");
+    private final H1 title = new H1(SCREEN_TITLE);
     private final TextField searchField = new TextField();
     private final Button searchButton = new Button("Search");
     private final Button newButton = new Button("New");
@@ -67,10 +71,7 @@ public class AnimalScreen extends VerticalLayout {
             List<Animal> result = action.get();
             onSuccess.accept(result);
         } catch (RuntimeException e) {
-            showResultDialog("Oops! Something bad occurred :(",
-                    "Failed to retrieve animals. Please check your connection and try again.",
-                    30f
-            ).open();
+            showResultDialog(ERROR_TITLE, ERROR_LOADING_ANIMALS, UIConstants.MODAL_WIDTH).open();
         }
     }
 
@@ -96,11 +97,7 @@ public class AnimalScreen extends VerticalLayout {
                 action.accept(animal);
                 onSuccess.run();
             } catch (RuntimeException e) {
-                showResultDialog(
-                        "Oops! Something bad occurred :(",
-                        "Error while trying to save animal: " + animal.getName(),
-                        30f
-                ).open();
+                showResultDialog(ERROR_TITLE, errorSavingAnimal(animal.getName()), UIConstants.MODAL_WIDTH).open();
             }
         });
     }
@@ -111,11 +108,7 @@ public class AnimalScreen extends VerticalLayout {
                 action.accept(animal);
                 onSuccess.run();
             } catch (RuntimeException e) {
-                showResultDialog(
-                        "Oops! Something bad occurred :(",
-                        "Error while trying to edit animal: " + animal.getName(),
-                        30f
-                ).open();
+                showResultDialog(ERROR_TITLE, errorEditingAnimal(animal.getName()), UIConstants.MODAL_WIDTH).open();
             }
         });
     }
@@ -126,7 +119,7 @@ public class AnimalScreen extends VerticalLayout {
         table.setAllRowsVisible(true);
         table.setColumnReorderingAllowed(true);
         table.setWidth(80f, Unit.PERCENTAGE);
-        table.setEmptyStateText("No animals to adopt");
+        table.setEmptyStateText(NO_ANIMALS);
         table.addThemeVariants(GridVariant.AURA_COLUMN_BORDERS);
         reloadAnimalsTable(findAllAnimals());
     }
@@ -196,10 +189,7 @@ public class AnimalScreen extends VerticalLayout {
         try {
             return animalService.findAllAnimals();
         } catch (RuntimeException e) {
-            showResultDialog("Oops! Something bad occurred :(",
-                    "Failed to load animals. Please check your connection and try again.",
-                    30f
-            ).open();
+            showResultDialog(ERROR_TITLE, ERROR_LOADING_ANIMALS, UIConstants.MODAL_WIDTH).open();
         }
         return List.of();
     }
