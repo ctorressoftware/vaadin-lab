@@ -2,7 +2,9 @@ package com.ctorres.vaadinlab.animal.ui;
 
 import com.ctorres.vaadinlab.animal.entity.Animal;
 import com.ctorres.vaadinlab.animal.AnimalService;
+
 import static com.ctorres.vaadinlab.common.DialogHelper.*;
+
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
@@ -61,8 +63,15 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private void handleClickSearchButton(Supplier<List<Animal>> action, Consumer<List<Animal>> onSuccess) {
-        List<Animal> result = action.get();
-        onSuccess.accept(result);
+        try {
+            List<Animal> result = action.get();
+            onSuccess.accept(result);
+        } catch (RuntimeException e) {
+            showResultDialog("Oops! Something bad occurred :(",
+                    "Failed to retrieve animals. Please check your connection and try again.",
+                    30f
+            ).open();
+        }
     }
 
     private List<Animal> searchAnimalsByName() {
@@ -97,7 +106,7 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private AnimalDialog showAnimalDialog(Animal toEdit, Consumer<Animal> action, Runnable onSuccess) {
-        return new AnimalDialog(toEdit,animal -> {
+        return new AnimalDialog(toEdit, animal -> {
             try {
                 action.accept(animal);
                 onSuccess.run();
@@ -164,17 +173,10 @@ public class AnimalScreen extends VerticalLayout {
     }
 
     private List<Animal> findAnimalsForSearch(String query) {
-        try {
-            String normalizedQuery = query == null ? "" : query.trim();
-            return normalizedQuery.isBlank()
-                    ? animalService.findAllAnimals()
-                    : animalService.findAnimalsByNameContaining(normalizedQuery);
-        } catch (RuntimeException e) {
-            showResultDialog("Oops! Something bad occurred :(",
-                    "Failed to retrieve animals. Please check your connection and try again.",
-                    30f);
-        }
-        return null;
+        String normalizedQuery = query == null ? "" : query.trim();
+        return normalizedQuery.isBlank()
+                ? animalService.findAllAnimals()
+                : animalService.findAnimalsByNameContaining(normalizedQuery);
     }
 
     private void configureActions() {
@@ -196,8 +198,9 @@ public class AnimalScreen extends VerticalLayout {
         } catch (RuntimeException e) {
             showResultDialog("Oops! Something bad occurred :(",
                     "Failed to load animals. Please check your connection and try again.",
-                    30f);
+                    30f
+            ).open();
         }
-        return null;
+        return List.of();
     }
 }
