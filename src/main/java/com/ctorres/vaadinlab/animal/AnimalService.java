@@ -1,6 +1,7 @@
 package com.ctorres.vaadinlab.animal;
 
 import com.ctorres.vaadinlab.animal.entity.Animal;
+import com.ctorres.vaadinlab.exception.AnimalNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,18 +21,18 @@ public class AnimalService {
     }
 
     public List<Animal> findAnimalsByNameContaining(String name) {
-        if (name == null || name.isBlank()) throw new RuntimeException("name is required");
+        if (name == null || name.isBlank()) throw new IllegalArgumentException("name is required");
         return animalRepository.findByNameContainingIgnoreCase(name.trim());
     }
 
     public Optional<Animal> findAnimalById(UUID id) {
-        if (id == null) throw new RuntimeException("id is required");
+        if (id == null) throw new IllegalArgumentException("id is required");
         return animalRepository.findById(id);
     }
 
     public void editAnimal(Animal animal) {
         boolean animalExists = animalRepository.existsAnimalById(animal.getId());
-        if (!animalExists) throw new RuntimeException("Specified animal doesn't exist. ID=" + animal.getId());
+        if (!animalExists) throw new AnimalNotFoundException(animal.getId().toString());
         animalRepository.save(animal);
     }
 
